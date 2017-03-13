@@ -1,5 +1,5 @@
 #pragma once
-#include "IClient.h"
+#include "../custom_interface/IClient.h"
 class USBKeyClient :
 	public IClient
 {

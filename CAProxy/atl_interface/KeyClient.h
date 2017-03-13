@@ -1,12 +1,12 @@
 // KeyClient.h : CKeyClient 的声明
 
 #pragma once
-#include "resource.h"       // 主符号
+#include "../resource.h"       // 主符号
 
 
 
-#include "CAProxy_i.h"
-#include "USBKeyClient.h"
+#include "../CAProxy_i.h"
+#include "../custom_impl/USBKeyClient.h"
 #include <memory>
 
 

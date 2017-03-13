@@ -17,14 +17,17 @@
       <UniqueIdentifier>{80f0e585-a2b7-4d48-8cf8-921e965677b3}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
-    <Filter Include="interface">
-      <UniqueIdentifier>{23ed4713-606f-463a-9e84-c46028ff82c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="impl">
-      <UniqueIdentifier>{4dd22389-3b6c-463e-bcdb-6d10bf126458}</UniqueIdentifier>
-    </Filter>
     <Filter Include="common">
       <UniqueIdentifier>{b8b82e63-3562-4450-a6aa-4770f2e3707b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="atl_interface">
+      <UniqueIdentifier>{a55b6596-8c0a-4640-96ac-2f12ab9c6805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="custom_interface">
+      <UniqueIdentifier>{23ed4713-606f-463a-9e84-c46028ff82c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="custom_impl">
+      <UniqueIdentifier>{4dd22389-3b6c-463e-bcdb-6d10bf126458}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -43,11 +46,11 @@
     <ClCompile Include="CAProxy_i.c">
       <Filter>生成的文件</Filter>
     </ClCompile>
-    <ClCompile Include="USBKeyClient.cpp">
-      <Filter>impl</Filter>
+    <ClCompile Include="custom_impl\USBKeyClient.cpp">
+      <Filter>custom_impl</Filter>
     </ClCompile>
-    <ClCompile Include="KeyClient.cpp">
-      <Filter>interface</Filter>
+    <ClCompile Include="atl_interface\KeyClient.cpp">
+      <Filter>atl_interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,20 +72,17 @@
     <ClInclude Include="CAProxy_i.h">
       <Filter>生成的文件</Filter>
     </ClInclude>
-    <ClInclude Include="IClient.h">
-      <Filter>interface</Filter>
+    <ClInclude Include="custom_impl\USBKeyClient.h">
+      <Filter>custom_impl</Filter>
     </ClInclude>
-    <ClInclude Include="define.h">
+    <ClInclude Include="common\define.h">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="USBKeyClient.h">
-      <Filter>impl</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyClient.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="logger.hpp">
+    <ClInclude Include="common\logger.hpp">
       <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="custom_interface\IClient.h">
+      <Filter>custom_interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="CAProxy.idl">
-      <Filter>interface</Filter>
+      <Filter>atl_interface</Filter>
     </Midl>
   </ItemGroup>
 </Project>

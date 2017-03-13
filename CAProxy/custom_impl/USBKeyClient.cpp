@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "USBKeyClient.h"
-#include "define.h"
+#include "../common/define.h"
 
 
 USBKeyClient::USBKeyClient()

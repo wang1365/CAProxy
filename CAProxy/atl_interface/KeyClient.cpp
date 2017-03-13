@@ -2,7 +2,7 @@
 
 #include "stdafx.h"
 #include "KeyClient.h"
-#include "logger.hpp"
+#include "../common/logger.hpp"
 
 
 // CKeyClient
