@@ -25,7 +25,7 @@ public:
 		参数：	SignMethod[in] 签名算法标识，详见表5“算法代码表”
 	返回值：	无
 	*/
-	void SOF_SetSignMethod(int SignMethod);
+	virtual void SOF_SetSignMethod(int SignMethod);
 
 
 	/* 3
@@ -50,6 +50,7 @@ public:
 	参数：	无
 	返回值：	当前控件使用的加密算法
 	*/
+	int SOF_GetEncryptMethod();
 
 	/* 6
 	原型：	BSTR SOF_GetUserList();

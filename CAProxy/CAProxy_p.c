@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Tue Mar 14 02:14:46 2017
+/* at Tue Mar 14 03:09:05 2017
  */
 /* Compiler settings for CAProxy.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -630,12 +630,12 @@ static const CAProxy_MIDL_PROC_FORMAT_STRING CAProxy__MIDL_ProcFormatString =
 /* 594 */	NdrFcShort( 0x15 ),	/* 21 */
 /* 596 */	NdrFcShort( 0x14 ),	/* x86 Stack size/offset = 20 */
 /* 598 */	NdrFcShort( 0x0 ),	/* 0 */
-/* 600 */	NdrFcShort( 0x24 ),	/* 36 */
-/* 602 */	0x46,		/* Oi2 Flags:  clt must size, has return, has ext, */
+/* 600 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 602 */	0x47,		/* Oi2 Flags:  srv must size, clt must size, has return, has ext, */
 			0x4,		/* 4 */
 /* 604 */	0x8,		/* 8 */
-			0x5,		/* Ext Flags:  new corr desc, srv corr check, */
-/* 606 */	NdrFcShort( 0x0 ),	/* 0 */
+			0x7,		/* Ext Flags:  new corr desc, clt corr check, srv corr check, */
+/* 606 */	NdrFcShort( 0x1 ),	/* 1 */
 /* 608 */	NdrFcShort( 0x1 ),	/* 1 */
 /* 610 */	NdrFcShort( 0x0 ),	/* 0 */
 
@@ -653,10 +653,9 @@ static const CAProxy_MIDL_PROC_FORMAT_STRING CAProxy__MIDL_ProcFormatString =
 
 	/* Parameter rv */
 
-/* 624 */	NdrFcShort( 0x2150 ),	/* Flags:  out, base type, simple ref, srv alloc size=8 */
+/* 624 */	NdrFcShort( 0x2113 ),	/* Flags:  must size, must free, out, simple ref, srv alloc size=8 */
 /* 626 */	NdrFcShort( 0xc ),	/* x86 Stack size/offset = 12 */
-/* 628 */	0x8,		/* FC_LONG */
-			0x0,		/* 0 */
+/* 628 */	NdrFcShort( 0x20 ),	/* Type Offset=32 */
 
 	/* Return value */
 

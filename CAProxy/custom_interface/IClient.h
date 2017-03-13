@@ -22,7 +22,7 @@ public:
 		参数：	SignMethod[in]
 		返回值：	无
 	*/
-	void SOF_SetSignMethod(int SignMethod);
+	virtual void SOF_SetSignMethod(int SignMethod) = 0;
 
 
 	/* 3
@@ -31,7 +31,7 @@ public:
 	参数：	无	
 	返回值：	获得当前的签名算法代码	详见表5“算法代码表”。
 	*/ 
-	int SOF_GetSignMethod();
+	virtual int SOF_GetSignMethod() = 0;
 
 	/* 4
 	原型：	Void SOF_SetEncryptMethod (int EncryptMethod) ;
@@ -39,7 +39,7 @@ public:
 	参数：	EncryptMethod	[IN] 对称加解密算法，详见表5“算法代码表”
 	返回值：	无
 	*/
-	void SOF_SetEncryptMethod(int EncryptMethod);
+	virtual void SOF_SetEncryptMethod(int EncryptMethod) = 0;
 
 	/* 5
 	原型：	int SOF_GetEncryptMethod();
@@ -54,7 +54,7 @@ public:
 	参数：	无
 	返回值：	BSTR ret  用户列表字符串	数据格式：(用户1||标识1&&&用户2||标识2&&&…)
 	*/
-	BSTR SOF_GetUserList();
+	virtual BSTR SOF_GetUserList() = 0;
 
 	/* 7
 	原型：	BSTR SOF_ExportUserCert(BSTR CertID);
@@ -64,7 +64,7 @@ public:
 			空	失败空值
 	备注：	如果是双证书，导出的是签名证书。
 	*/
-	BSTR SOF_ExportUserCert(BSTR CertID);
+	virtual BSTR SOF_ExportUserCert(BSTR CertID) = 0;
 
 	/* 8
 	原型：	int SOF_Login(BSTR CertID, BSTR PassWd)
@@ -73,7 +73,7 @@ public:
 			BSTR PassWd [in]	输入参数，口令
 	返回值：	成功返回0；失败时返回密码重试的剩余次数；锁死时返回 -1
 	*/
-	int SOF_Login(BSTR CertID, BSTR PassWd);
+	virtual int SOF_Login(BSTR CertID, BSTR PassWd) = 0;
 
 	/* 9 
 	原型：	BOOL  SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd，BSTR NewPassWd)
@@ -83,7 +83,7 @@ public:
 			BSTR NewPassWd [in]	输入参数，新口令
 	返回值：	成功 TRUE，失败 FALSE
 	*/
-	BOOL  SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd, BSTR NewPassWd);
+	virtual BOOL  SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd, BSTR NewPassWd) = 0;
 
 	/* 10 
 	原型：	BSTR SOF_ExportExChangeUserCert (BSTR CertID) ;
@@ -92,7 +92,7 @@ public:
 	返回值：	BSTR rv	获取Base64编码的证书字符串
 			空值		失败
 	*/
-	BSTR SOF_ExportExChangeUserCert(BSTR CertID);
+	virtual BSTR SOF_ExportExChangeUserCert(BSTR CertID) = 0;
 
 	/* 11
 	原型：	BSTR SOF_GetCertInfo(BSTR Cert, short Type);
@@ -102,7 +102,7 @@ public:
 	返回值：	BSTR	ret		证书信息
 			空值				失败
 	*/
-	BSTR SOF_GetCertInfo(BSTR Cert, short Type);
+	virtual BSTR SOF_GetCertInfo(BSTR Cert, short Type) = 0;
 
 
 	/* 12
@@ -113,7 +113,7 @@ public:
 	返回值：	BSTR ret	证书OID对应的值
 			空值			失败
 	*/
-	BSTR SOF_GetCertInfoByOid(BSTR Cert, BSTR Oid);
+	virtual BSTR SOF_GetCertInfoByOid(BSTR Cert, BSTR Oid) = 0;
 
 
 	/* 13
@@ -124,7 +124,7 @@ public:
 	返回值：	BSTR ret	type对应的值
 			空值			失败
 	*/
-	BSTR SOF_GetUserInfo(BSTR CertId, short type);
+	virtual BSTR SOF_GetUserInfo(BSTR CertId, short type) = 0;
 
 	/* 14
 	原型：	BOOL SOF_ValidateCert(BSTR Cert);
@@ -134,7 +134,7 @@ public:
 			FALSE	失败
 	空值	失败
 	*/
-	BOOL SOF_ValidateCert(BSTR Cert);
+	virtual BOOL SOF_ValidateCert(BSTR Cert) = 0;
 
 	/* 15
 	原型：	BSTR SOF_SignData(BSTR CertID, BSTR InData) ;
@@ -144,7 +144,7 @@ public:
 	返回值：	BSTR  ret	签名结果, BASE64编码
 	空值	失败
 	*/
-	BSTR SOF_SignData(BSTR CertID, BSTR InData);
+	virtual BSTR SOF_SignData(BSTR CertID, BSTR InData) = 0;
 
 	/* 16
 	原型：	BOOL SOF_VerifySignedData(BSTR Cert, BSTR InData, BSTR SignValue) ;
@@ -155,7 +155,7 @@ public:
 	返回值：	TRUE	成功
 	FALSE	失败
 	*/
-	BOOL SOF_VerifySignedData(BSTR Cert, BSTR InData, BSTR SignValue);
+	virtual BOOL SOF_VerifySignedData(BSTR Cert, BSTR InData, BSTR SignValue) = 0;
 	 
 	/* 17
 	原型：	BSTR SOF_SignFile(BSTR CertID, BSTR InFile) ;
@@ -165,7 +165,7 @@ public:
 	返回值：	BSTR ret	签名结果
 	空值	失败
 	*/
-	BSTR SOF_SignFile(BSTR CertID, BSTR InFile);
+	virtual BSTR SOF_SignFile(BSTR CertID, BSTR InFile) = 0;
 
 	/* 18
 	原型：	BOOL SOF_VerifySignedFile(BSTR Cert, BSTR InFile, BSTR SignValue) ;
@@ -176,7 +176,7 @@ public:
 	返回值：	TRUE	成功
 	FALSE	失败
 	*/
-	BOOL SOF_VerifySignedFile(BSTR Cert, BSTR InFile, BSTR SignValue);
+	virtual BOOL SOF_VerifySignedFile(BSTR Cert, BSTR InFile, BSTR SignValue) = 0;
 
 	/* 19
 	原型：	BSTR SOF_EncryptData(BSTR SymmKey, BSTR Indata) ;
@@ -186,7 +186,7 @@ public:
 	返回值：	BSTR rv	加密后的密文
 			空值		失败
 	*/
-	BSTR SOF_EncryptData(BSTR SymmKey, BSTR Indata);
+	virtual BSTR SOF_EncryptData(BSTR SymmKey, BSTR Indata) = 0;
 
 	/* 20
 	原型：	BSTR SOF_DecryptData(BSTR SymmKey, BSTR Indata) ;
@@ -196,7 +196,7 @@ public:
 	返回值：	BSTR rv	解密后的明文
 			空值		失败
 	*/
-	BSTR SOF_DecryptData(BSTR SymmKey, BSTR Indata);
+	virtual BSTR SOF_DecryptData(BSTR SymmKey, BSTR Indata) = 0;
 
 	/* 21
 	原型：	BOOL SOF_EncryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile) ;
@@ -207,7 +207,7 @@ public:
 	返回值：	TRUE	成功
 			FALSE	失败
 	*/
-	BOOL SOF_EncryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile);
+	virtual BOOL SOF_EncryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile) = 0;
 
 	/* 22
 	原型：	BOOL SOF_DecryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile) ;
@@ -218,7 +218,7 @@ public:
 	返回值：	TRUE	成功
 	FALSE	失败
 	*/
-	BOOL SOF_DecryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile);
+	virtual BOOL SOF_DecryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile) = 0;
 
 	/* 23
 	原型：	BSTR SOF_PubKeyEncrypt(BSTR Cert, BSTR InData) ;
@@ -229,7 +229,7 @@ public:
 	空值	失败
 	备注：	因为是PKCS#1格式，故加密的数据长度要小于证书的位数。比如1024位的证书，InData长度必须小于128
 	*/
-	BSTR SOF_PubKeyEncrypt(BSTR Cert, BSTR InData);
+	virtual BSTR SOF_PubKeyEncrypt(BSTR Cert, BSTR InData) = 0;
 
 	/* 24
 	原型：	BSTR SOF_PriKeyDecrypt(BSTR CertID, BSTR InData) ;
@@ -240,7 +240,7 @@ public:
 			空值
 	备注：	因为是PKCS#1格式，故加密的数据长度要小于证书的位数。比如1024位的证书，InData长度必须小于128
 	*/
-	BSTR SOF_PriKeyDecrypt(BSTR CertID, BSTR InData);
+	virtual BSTR SOF_PriKeyDecrypt(BSTR CertID, BSTR InData) = 0;
 
 	/* 25
 	原型：	BSTR SOF_SignDataByP7(BSTR CertID, BSTR InData)
@@ -251,7 +251,7 @@ public:
 			空值	失败
 	备注：	PKCS#7签名结果包含原文+签名者证书+签名值。
 	*/
-	BSTR SOF_SignDataByP7(BSTR CertID, BSTR InData);
+	virtual BSTR SOF_SignDataByP7(BSTR CertID, BSTR InData) = 0;
 
 	/* 26
 	原型：	BOOL SOF_VerifySignedDataByP7 (BSTR P7Data) ;
@@ -260,7 +260,7 @@ public:
 	返回值：	TRUE	成功
 			FALSE	失败
 	*/
-	BOOL SOF_VerifySignedDataByP7(BSTR P7Data);
+	virtual BOOL SOF_VerifySignedDataByP7(BSTR P7Data) = 0;
 
 	/* 27
 	原型：	BSTR SOF_GetP7SignDataInfo ( BSTR P7Data，short type) ;
@@ -271,7 +271,7 @@ public:
 			空值	失败
 	备注：	类型：1：原文；2：签名者证书；3：签名值
 	*/
-	BSTR SOF_GetP7SignDataInfo(BSTR P7Data, short type);
+	virtual BSTR SOF_GetP7SignDataInfo(BSTR P7Data, short type) = 0;
 
 	/* 28
 	原型：	BSTR SOF_SignDataXML(BSTR CertID, BSTR InData) ;
@@ -282,7 +282,7 @@ public:
 			空值	失败
 	备注：	XML签名标准见 http://www.w3.org/TR/xmldsig-core/
 	*/
-	BSTR SOF_SignDataXML(BSTR CertID, BSTR InData);
+	virtual BSTR SOF_SignDataXML(BSTR CertID, BSTR InData) = 0;
 
 	/* 29
 	原型：	BOOL  SOF_VerifySignedDataXML (BSTR InData) ;
@@ -292,7 +292,7 @@ public:
 			FALSE	失败
 	备注：	XML签名标准见 http://www.w3.org/TR/xmldsig-core/
 	*/
-	BOOL  SOF_VerifySignedDataXML(BSTR InData);
+	virtual BOOL  SOF_VerifySignedDataXML(BSTR InData) = 0;
 
 	/* 30
 	原型：	BSTR  SOF_GetXMLSignatureInfo (BSTR XMLSignedData,short type) ;
@@ -302,7 +302,7 @@ public:
 	返回值：	各项对应的信息
 	备注：	type可选的参数和意义：1：xml原文；2：摘要；3：签名值；4：签名证书；5：摘要算法；6：签名算法。失败返回空值
 	*/
-	BSTR  SOF_GetXMLSignatureInfo(BSTR XMLSignedData, short type);
+	virtual BSTR  SOF_GetXMLSignatureInfo(BSTR XMLSignedData, short type) = 0;
 
 	/* 31
 	原型：	Int SOF_CheckSupport();
@@ -310,7 +310,7 @@ public:
 	参数：	无
 	返回值：	int rv	0表示支持，1表示不支持。
 	*/
-	int SOF_CheckSupport();
+	virtual int SOF_CheckSupport() = 0;
 
 	/* 32
 	原型：	BSTR SOF_GenRandom(short len);
@@ -318,6 +318,6 @@ public:
 	参数：	int RanddomLen[in]	待产生的随机数长度（bytes，字节长度）
 	返回值：	BSTR rv	随机数值（Base64编码后的）
 	*/
-	BSTR SOF_GenRandom(short len);
+	virtual BSTR SOF_GenRandom(short len) = 0;
 };
 

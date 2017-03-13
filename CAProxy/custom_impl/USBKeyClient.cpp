@@ -45,7 +45,7 @@ int USBKeyClient::SOF_GetVersion(OUT unsigned int *puiVersion)
 参数：	SignMethod[in] 签名算法标识，详见表5“算法代码表”
 返回值：	无
 */
-void SOF_SetSignMethod(int SignMethod)
+void USBKeyClient::SOF_SetSignMethod(int SignMethod)
 {
 
 }
@@ -57,7 +57,7 @@ void SOF_SetSignMethod(int SignMethod)
 参数：	无
 返回值：	获得当前的签名算法代码	详见表5“算法代码表”。
 */
-int SOF_GetSignMethod()
+int USBKeyClient::SOF_GetSignMethod()
 {
 	return 0;
 }
@@ -68,7 +68,7 @@ int SOF_GetSignMethod()
 参数：	EncryptMethod	[IN] 对称加解密算法，详见表5“算法代码表”
 返回值：	无
 */
-void SOF_SetEncryptMethod(int EncryptMethod)
+void USBKeyClient::SOF_SetEncryptMethod(int EncryptMethod)
 {
 
 }
@@ -79,7 +79,7 @@ void SOF_SetEncryptMethod(int EncryptMethod)
 参数：	无
 返回值：	当前控件使用的加密算法
 */
-int SOF_GetEncryptMethod()
+int USBKeyClient::SOF_GetEncryptMethod()
 {
 	return 0;
 }
@@ -90,7 +90,7 @@ int SOF_GetEncryptMethod()
 参数：	无
 返回值：	BSTR ret  用户列表字符串	数据格式：(用户1||标识1&&&用户2||标识2&&&…)
 */
-BSTR SOF_GetUserList()
+BSTR USBKeyClient::SOF_GetUserList()
 {
 	return NULL;
 }
@@ -103,7 +103,7 @@ BSTR SOF_GetUserList()
 空	失败空值
 备注：	如果是双证书，导出的是签名证书。
 */
-BSTR SOF_ExportUserCert(BSTR CertID)
+BSTR USBKeyClient::SOF_ExportUserCert(BSTR CertID)
 {
 	return NULL;
 }
@@ -115,7 +115,7 @@ BSTR SOF_ExportUserCert(BSTR CertID)
 BSTR PassWd [in]	输入参数，口令
 返回值：	成功返回0；失败时返回密码重试的剩余次数；锁死时返回 -1
 */
-int SOF_Login(BSTR CertID, BSTR PassWd)
+int USBKeyClient::SOF_Login(BSTR CertID, BSTR PassWd)
 {
 	return 0;
 }
@@ -129,7 +129,7 @@ BSTR OldPassWd [in]	输入参数，旧口令
 BSTR NewPassWd [in]	输入参数，新口令
 返回值：	成功 TRUE，失败 FALSE
 */
-BOOL  SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd, BSTR NewPassWd)
+BOOL USBKeyClient::SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd, BSTR NewPassWd)
 {
 	return true;
 }
@@ -141,7 +141,7 @@ BOOL  SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd, BSTR NewPassWd)
 返回值：	BSTR rv	获取Base64编码的证书字符串
 空值		失败
 */
-BSTR SOF_ExportExChangeUserCert(BSTR CertID)
+BSTR USBKeyClient::SOF_ExportExChangeUserCert(BSTR CertID)
 {
 	return NULL;
 }
@@ -154,7 +154,7 @@ short Type[in]	获取信息的类型，TYPE参数见表3“证书信息解析代码表”。
 返回值：	BSTR	ret		证书信息
 空值				失败
 */
-BSTR SOF_GetCertInfo(BSTR Cert, short Type)
+BSTR USBKeyClient::SOF_GetCertInfo(BSTR Cert, short Type)
 {
 	return NULL;
 }
@@ -168,7 +168,7 @@ BSTR Oid [in]	私有扩展对象ID，比如“1.2.156.xxx”
 返回值：	BSTR ret	证书OID对应的值
 空值			失败
 */
-BSTR SOF_GetCertInfoByOid(BSTR Cert, BSTR Oid)
+BSTR USBKeyClient::SOF_GetCertInfoByOid(BSTR Cert, BSTR Oid)
 {
 	return NULL;
 }
@@ -182,7 +182,7 @@ type[in]	信息类别，参数和意义见表4“证书对应信息表”。
 返回值：	BSTR ret	type对应的值
 空值			失败
 */
-BSTR SOF_GetUserInfo(BSTR CertId, short type)
+BSTR USBKeyClient::SOF_GetUserInfo(BSTR CertId, short type)
 {
 	return NULL;
 }
@@ -195,7 +195,7 @@ BSTR SOF_GetUserInfo(BSTR CertId, short type)
 FALSE	失败
 空值	失败
 */
-BOOL SOF_ValidateCert(BSTR Cert)
+BOOL USBKeyClient::SOF_ValidateCert(BSTR Cert)
 {
 	return true;
 }
@@ -208,7 +208,7 @@ BSTR  InData[in] 签名原文
 返回值：	BSTR  ret	签名结果, BASE64编码
 空值	失败
 */
-BSTR SOF_SignData(BSTR CertID, BSTR InData)
+BSTR USBKeyClient::SOF_SignData(BSTR CertID, BSTR InData)
 {
 	return NULL;
 }
@@ -222,7 +222,7 @@ BSTR  SignValue[in]	签名值，BASE64编码
 返回值：	TRUE	成功
 FALSE	失败
 */
-BOOL SOF_VerifySignedData(BSTR Cert, BSTR InData, BSTR SignValue)
+BOOL USBKeyClient::SOF_VerifySignedData(BSTR Cert, BSTR InData, BSTR SignValue)
 {
 	return true;
 }
@@ -235,7 +235,7 @@ BSTR  InFile[in]	签名原文文件路径
 返回值：	BSTR ret	签名结果
 空值	失败
 */
-BSTR SOF_SignFile(BSTR CertID, BSTR InFile)
+BSTR USBKeyClient::SOF_SignFile(BSTR CertID, BSTR InFile)
 {
 	return NULL;
 }
@@ -249,7 +249,7 @@ BSTR  SignValue[in]	签名值
 返回值：	TRUE	成功
 FALSE	失败
 */
-BOOL SOF_VerifySignedFile(BSTR Cert, BSTR InFile, BSTR SignValue)
+BOOL USBKeyClient::SOF_VerifySignedFile(BSTR Cert, BSTR InFile, BSTR SignValue)
 {
 	return true;
 }
@@ -262,7 +262,7 @@ BSTR Indata[in]	待加密的明文
 返回值：	BSTR rv	加密后的密文
 空值		失败
 */
-BSTR SOF_EncryptData(BSTR SymmKey, BSTR Indata)
+BSTR USBKeyClient::SOF_EncryptData(BSTR SymmKey, BSTR Indata)
 {
 	return NULL;
 }
@@ -275,7 +275,7 @@ BSTR Indata[in]	待解密的密文
 返回值：	BSTR rv	解密后的明文
 空值		失败
 */
-BSTR SOF_DecryptData(BSTR SymmKey, BSTR Indata)
+BSTR USBKeyClient::SOF_DecryptData(BSTR SymmKey, BSTR Indata)
 {
 	return NULL;
 }
@@ -289,7 +289,7 @@ BSTR OutFile[in]	密文文件保存路径
 返回值：	TRUE	成功
 FALSE	失败
 */
-BOOL SOF_EncryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile)
+BOOL USBKeyClient::SOF_EncryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile)
 {
 	return true;
 }
@@ -303,7 +303,7 @@ BSTR OutFile[in]	明文文件保存路径
 返回值：	TRUE	成功
 FALSE	失败
 */
-BOOL SOF_DecryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile)
+BOOL USBKeyClient::SOF_DecryptFile(BSTR SymmKey, BSTR InFile, BSTR OutFile)
 {
 	return true;
 }
@@ -317,7 +317,7 @@ BSTR InData[in]	待加密的数据
 空值	失败
 备注：	因为是PKCS#1格式，故加密的数据长度要小于证书的位数。比如1024位的证书，InData长度必须小于128
 */
-BSTR SOF_PubKeyEncrypt(BSTR Cert, BSTR InData)
+BSTR USBKeyClient::SOF_PubKeyEncrypt(BSTR Cert, BSTR InData)
 {
 	return NULL;
 }
@@ -331,7 +331,7 @@ BSTR InData[in]
 空值
 备注：	因为是PKCS#1格式，故加密的数据长度要小于证书的位数。比如1024位的证书，InData长度必须小于128
 */
-BSTR SOF_PriKeyDecrypt(BSTR CertID, BSTR InData)
+BSTR USBKeyClient::SOF_PriKeyDecrypt(BSTR CertID, BSTR InData)
 {
 	return NULL;
 }
@@ -345,7 +345,7 @@ BSTR  InData[in]	签名原文
 空值	失败
 备注：	PKCS#7签名结果包含原文+签名者证书+签名值。
 */
-BSTR SOF_SignDataByP7(BSTR CertID, BSTR InData)
+BSTR USBKeyClient::SOF_SignDataByP7(BSTR CertID, BSTR InData)
 {
 	return NULL;
 }
@@ -357,7 +357,7 @@ BSTR SOF_SignDataByP7(BSTR CertID, BSTR InData)
 返回值：	TRUE	成功
 FALSE	失败
 */
-BOOL SOF_VerifySignedDataByP7(BSTR P7Data)
+BOOL USBKeyClient::SOF_VerifySignedDataByP7(BSTR P7Data)
 {
 	return true;
 }
@@ -371,7 +371,7 @@ short type[in]	类型
 空值	失败
 备注：	类型：1：原文；2：签名者证书；3：签名值
 */
-BSTR SOF_GetP7SignDataInfo(BSTR P7Data, short type)
+BSTR USBKeyClient::SOF_GetP7SignDataInfo(BSTR P7Data, short type)
 {
 	return NULL;
 }
@@ -385,7 +385,7 @@ BSTR  InData[in]	签名原文，XML格式
 空值	失败
 备注：	XML签名标准见 http://www.w3.org/TR/xmldsig-core/
 */
-BSTR SOF_SignDataXML(BSTR CertID, BSTR InData)
+BSTR USBKeyClient::SOF_SignDataXML(BSTR CertID, BSTR InData)
 {
 	return NULL;
 }
@@ -398,7 +398,7 @@ BSTR SOF_SignDataXML(BSTR CertID, BSTR InData)
 FALSE	失败
 备注：	XML签名标准见 http://www.w3.org/TR/xmldsig-core/
 */
-BOOL  SOF_VerifySignedDataXML(BSTR InData)
+BOOL  USBKeyClient::SOF_VerifySignedDataXML(BSTR InData)
 {
 	return true;
 }
@@ -411,7 +411,7 @@ Type[in]
 返回值：	各项对应的信息
 备注：	type可选的参数和意义：1：xml原文；2：摘要；3：签名值；4：签名证书；5：摘要算法；6：签名算法。失败返回空值
 */
-BSTR  SOF_GetXMLSignatureInfo(BSTR XMLSignedData, short type)
+BSTR  USBKeyClient::SOF_GetXMLSignatureInfo(BSTR XMLSignedData, short type)
 {
 	return NULL;
 }
@@ -422,7 +422,7 @@ BSTR  SOF_GetXMLSignatureInfo(BSTR XMLSignedData, short type)
 参数：	无
 返回值：	int rv	0表示支持，1表示不支持。
 */
-int SOF_CheckSupport()
+int USBKeyClient::SOF_CheckSupport()
 {
 	return 0;
 }
@@ -433,7 +433,7 @@ int SOF_CheckSupport()
 参数：	int RanddomLen[in]	待产生的随机数长度（bytes，字节长度）
 返回值：	BSTR rv	随机数值（Base64编码后的）
 */
-BSTR SOF_GenRandom(short len)
+BSTR USBKeyClient::SOF_GenRandom(short len)
 {
 	return NULL;
 }

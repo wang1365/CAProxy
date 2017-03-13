@@ -52,6 +52,9 @@
     <ClCompile Include="atl_interface\KeyClient.cpp">
       <Filter>atl_interface</Filter>
     </ClCompile>
+    <ClCompile Include="custom_interface\IClient.cpp">
+      <Filter>custom_interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -83,6 +86,9 @@
     </ClInclude>
     <ClInclude Include="custom_interface\IClient.h">
       <Filter>custom_interface</Filter>
+    </ClInclude>
+    <ClInclude Include="atl_interface\KeyClient.h">
+      <Filter>atl_interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

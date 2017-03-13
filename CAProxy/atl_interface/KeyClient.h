@@ -75,7 +75,7 @@ public:
 	STDMETHOD(SOF_GetCertInfoByOid)(BSTR Cert, BSTR Oid, BSTR* rv);
 	STDMETHOD(SOF_GetUserInfo)(BSTR Cert, LONG Type, BSTR* rv);
 	STDMETHOD(SOF_ValidateCert)(BSTR Cert, BOOL* rv);
-	STDMETHOD(SOF_SignData)(BSTR Cert, BSTR InData, BOOL* rv);
+	STDMETHOD(SOF_SignData)(BSTR Cert, BSTR InData, BSTR* rv);
 	STDMETHOD(SOF_VerifySignedData)(BSTR Cert, BSTR InData, BSTR SignValue, BOOL* rv);
 	STDMETHOD(SOF_SignFile)(BSTR Cert, BSTR InFile, BSTR* rv);
 	STDMETHOD(SOF_VerifySignedFile)(BSTR Cert, BSTR InFile, BSTR SignValue, BOOL* rv);

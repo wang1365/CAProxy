@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Tue Mar 14 02:14:46 2017
+/* at Tue Mar 14 03:09:05 2017
  */
 /* Compiler settings for CAProxy.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -147,7 +147,7 @@ EXTERN_C const IID IID_IKeyClient;
         virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_SignData( 
             /* [in] */ BSTR Cert,
             /* [in] */ BSTR InData,
-            /* [retval][out] */ BOOL *rv) = 0;
+            /* [retval][out] */ BSTR *rv) = 0;
         
         virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_VerifySignedData( 
             /* [in] */ BSTR Cert,
@@ -365,7 +365,7 @@ EXTERN_C const IID IID_IKeyClient;
             IKeyClient * This,
             /* [in] */ BSTR Cert,
             /* [in] */ BSTR InData,
-            /* [retval][out] */ BOOL *rv);
+            /* [retval][out] */ BSTR *rv);
         
         /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_VerifySignedData )( 
             IKeyClient * This,
