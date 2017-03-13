@@ -8,11 +8,27 @@ import "oaidl.idl";
 import "ocidl.idl";
 
 [
+	object,
+	uuid(F13C3022-B19D-49D4-9282-881078586642),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IKeyClient : IDispatch{
+};
+[
 	uuid(10661CFA-50EB-4FC6-9EEA-F465A9DA0137),
 	version(1.0),
 ]
 library CAProxyLib
 {
 	importlib("stdole2.tlb");
+	[
+		uuid(5788ACA3-28AE-402F-B952-8DB113F8396F)		
+	]
+	coclass KeyClient
+	{
+		[default] interface IKeyClient;
+	};
 };
 

@@ -34,6 +34,9 @@
     <ClCompile Include="CAProxy_i.c">
       <Filter>生成的文件</Filter>
     </ClCompile>
+    <ClCompile Include="KeyClient.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -54,6 +57,9 @@
     <ClInclude Include="CAProxy_i.h">
       <Filter>生成的文件</Filter>
     </ClInclude>
+    <ClInclude Include="KeyClient.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="CAProxy.rc">
@@ -69,6 +75,9 @@
     </None>
     <None Include="CAProxy.def">
       <Filter>源文件</Filter>
+    </None>
+    <None Include="KeyClient.rgs">
+      <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

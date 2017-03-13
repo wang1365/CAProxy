@@ -1,0 +1,26 @@
+HKCR
+{
+	CAProxy.IKeyClient.1 = s 'KeyClient Class'
+	{
+		CLSID = s '{5788ACA3-28AE-402F-B952-8DB113F8396F}'
+	}
+	CAProxy.IKeyClient = s 'KeyClient Class'
+	{		
+		CurVer = s 'CAProxy.IKeyClient.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {5788ACA3-28AE-402F-B952-8DB113F8396F} = s 'KeyClient Class'
+		{
+			ProgID = s 'CAProxy.IKeyClient.1'
+			VersionIndependentProgID = s 'CAProxy.IKeyClient'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			TypeLib = s '{10661CFA-50EB-4FC6-9EEA-F465A9DA0137}'
+			Version = s '1.0'
+		}
+	}
+}
