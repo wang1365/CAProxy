@@ -1,0 +1,18 @@
+// CAProxy.idl : CAProxy的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(CAProxy.tlb)和封送处理代码。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(10661CFA-50EB-4FC6-9EEA-F465A9DA0137),
+	version(1.0),
+]
+library CAProxyLib
+{
+	importlib("stdole2.tlb");
+};
+
