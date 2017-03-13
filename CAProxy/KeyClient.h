@@ -54,6 +54,7 @@ public:
 
 
 
+	STDMETHOD(help)(BSTR* v);
 };
 
 OBJECT_ENTRY_AUTO(__uuidof(KeyClient), CKeyClient)

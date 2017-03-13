@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Mon Mar 13 20:10:23 2017
+/* at Mon Mar 13 20:14:33 2017
  */
 /* Compiler settings for CAProxy.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -49,11 +49,11 @@
 
 #include "CAProxy_i.h"
 
-#define TYPE_FORMAT_STRING_SIZE   3                                 
-#define PROC_FORMAT_STRING_SIZE   1                                 
+#define TYPE_FORMAT_STRING_SIZE   43                                
+#define PROC_FORMAT_STRING_SIZE   37                                
 #define EXPR_FORMAT_STRING_SIZE   1                                 
 #define TRANSMIT_AS_TABLE_SIZE    0            
-#define WIRE_MARSHAL_TABLE_SIZE   0            
+#define WIRE_MARSHAL_TABLE_SIZE   1            
 
 typedef struct _CAProxy_MIDL_TYPE_FORMAT_STRING
     {
@@ -90,6 +90,7 @@ extern const MIDL_SERVER_INFO IKeyClient_ServerInfo;
 extern const MIDL_STUBLESS_PROXY_INFO IKeyClient_ProxyInfo;
 
 
+extern const USER_MARSHAL_ROUTINE_QUADRUPLE UserMarshalRoutines[ WIRE_MARSHAL_TABLE_SIZE ];
 
 #if !defined(__RPC_WIN32__)
 #error  Invalid build platform for this stub.
@@ -108,6 +109,36 @@ static const CAProxy_MIDL_PROC_FORMAT_STRING CAProxy__MIDL_ProcFormatString =
         0,
         {
 
+	/* Procedure help */
+
+			0x33,		/* FC_AUTO_HANDLE */
+			0x6c,		/* Old Flags:  object, Oi2 */
+/*  2 */	NdrFcLong( 0x0 ),	/* 0 */
+/*  6 */	NdrFcShort( 0x7 ),	/* 7 */
+/*  8 */	NdrFcShort( 0xc ),	/* x86 Stack size/offset = 12 */
+/* 10 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 12 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 14 */	0x46,		/* Oi2 Flags:  clt must size, has return, has ext, */
+			0x2,		/* 2 */
+/* 16 */	0x8,		/* 8 */
+			0x5,		/* Ext Flags:  new corr desc, srv corr check, */
+/* 18 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 20 */	NdrFcShort( 0x1 ),	/* 1 */
+/* 22 */	NdrFcShort( 0x0 ),	/* 0 */
+
+	/* Parameter v */
+
+/* 24 */	NdrFcShort( 0x10b ),	/* Flags:  must size, must free, in, simple ref, */
+/* 26 */	NdrFcShort( 0x4 ),	/* x86 Stack size/offset = 4 */
+/* 28 */	NdrFcShort( 0x20 ),	/* Type Offset=32 */
+
+	/* Return value */
+
+/* 30 */	NdrFcShort( 0x70 ),	/* Flags:  out, return, base type, */
+/* 32 */	NdrFcShort( 0x8 ),	/* x86 Stack size/offset = 8 */
+/* 34 */	0x8,		/* FC_LONG */
+			0x0,		/* 0 */
+
 			0x0
         }
     };
@@ -117,10 +148,54 @@ static const CAProxy_MIDL_TYPE_FORMAT_STRING CAProxy__MIDL_TypeFormatString =
         0,
         {
 			NdrFcShort( 0x0 ),	/* 0 */
+/*  2 */	
+			0x11, 0x0,	/* FC_RP */
+/*  4 */	NdrFcShort( 0x1c ),	/* Offset= 28 (32) */
+/*  6 */	
+			0x12, 0x0,	/* FC_UP */
+/*  8 */	NdrFcShort( 0xe ),	/* Offset= 14 (22) */
+/* 10 */	
+			0x1b,		/* FC_CARRAY */
+			0x1,		/* 1 */
+/* 12 */	NdrFcShort( 0x2 ),	/* 2 */
+/* 14 */	0x9,		/* Corr desc: FC_ULONG */
+			0x0,		/*  */
+/* 16 */	NdrFcShort( 0xfffc ),	/* -4 */
+/* 18 */	NdrFcShort( 0x1 ),	/* Corr flags:  early, */
+/* 20 */	0x6,		/* FC_SHORT */
+			0x5b,		/* FC_END */
+/* 22 */	
+			0x17,		/* FC_CSTRUCT */
+			0x3,		/* 3 */
+/* 24 */	NdrFcShort( 0x8 ),	/* 8 */
+/* 26 */	NdrFcShort( 0xfff0 ),	/* Offset= -16 (10) */
+/* 28 */	0x8,		/* FC_LONG */
+			0x8,		/* FC_LONG */
+/* 30 */	0x5c,		/* FC_PAD */
+			0x5b,		/* FC_END */
+/* 32 */	0xb4,		/* FC_USER_MARSHAL */
+			0x83,		/* 131 */
+/* 34 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 36 */	NdrFcShort( 0x4 ),	/* 4 */
+/* 38 */	NdrFcShort( 0x0 ),	/* 0 */
+/* 40 */	NdrFcShort( 0xffde ),	/* Offset= -34 (6) */
 
 			0x0
         }
     };
+
+static const USER_MARSHAL_ROUTINE_QUADRUPLE UserMarshalRoutines[ WIRE_MARSHAL_TABLE_SIZE ] = 
+        {
+            
+            {
+            BSTR_UserSize
+            ,BSTR_UserMarshal
+            ,BSTR_UserUnmarshal
+            ,BSTR_UserFree
+            }
+
+        };
+
 
 
 /* Object interface: IUnknown, ver. 0.0,
@@ -165,9 +240,9 @@ static const MIDL_SERVER_INFO IKeyClient_ServerInfo =
     0,
     0,
     0};
-CINTERFACE_PROXY_VTABLE(7) _IKeyClientProxyVtbl = 
+CINTERFACE_PROXY_VTABLE(8) _IKeyClientProxyVtbl = 
 {
-    0,
+    &IKeyClient_ProxyInfo,
     &IID_IKeyClient,
     IUnknown_QueryInterface_Proxy,
     IUnknown_AddRef_Proxy,
@@ -175,7 +250,8 @@ CINTERFACE_PROXY_VTABLE(7) _IKeyClientProxyVtbl =
     0 /* IDispatch::GetTypeInfoCount */ ,
     0 /* IDispatch::GetTypeInfo */ ,
     0 /* IDispatch::GetIDsOfNames */ ,
-    0 /* IDispatch_Invoke_Proxy */
+    0 /* IDispatch_Invoke_Proxy */ ,
+    (void *) (INT_PTR) -1 /* IKeyClient::help */
 };
 
 
@@ -184,14 +260,15 @@ static const PRPC_STUB_FUNCTION IKeyClient_table[] =
     STUB_FORWARDING_FUNCTION,
     STUB_FORWARDING_FUNCTION,
     STUB_FORWARDING_FUNCTION,
-    STUB_FORWARDING_FUNCTION
+    STUB_FORWARDING_FUNCTION,
+    NdrStubCall2
 };
 
 CInterfaceStubVtbl _IKeyClientStubVtbl =
 {
     &IID_IKeyClient,
     &IKeyClient_ServerInfo,
-    7,
+    8,
     &IKeyClient_table[-3],
     CStdStubBuffer_DELEGATING_METHODS
 };
@@ -212,7 +289,7 @@ static const MIDL_STUB_DESC Object_StubDesc =
     0,
     0x800025b, /* MIDL Version 8.0.603 */
     0,
-    0,
+    UserMarshalRoutines,
     0,  /* notify & notify_flag routine table */
     0x1, /* MIDL flag */
     0, /* cs routines */

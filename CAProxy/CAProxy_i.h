@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Mon Mar 13 20:10:23 2017
+/* at Mon Mar 13 20:14:33 2017
  */
 /* Compiler settings for CAProxy.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -88,6 +88,9 @@ EXTERN_C const IID IID_IKeyClient;
     IKeyClient : public IDispatch
     {
     public:
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE help( 
+            BSTR *v) = 0;
+        
     };
     
     
@@ -146,6 +149,10 @@ EXTERN_C const IID IID_IKeyClient;
             /* [annotation][out] */ 
             _Out_opt_  UINT *puArgErr);
         
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *help )( 
+            IKeyClient * This,
+            BSTR *v);
+        
         END_INTERFACE
     } IKeyClientVtbl;
 
@@ -182,6 +189,9 @@ EXTERN_C const IID IID_IKeyClient;
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
 
+#define IKeyClient_help(This,v)	\
+    ( (This)->lpVtbl -> help(This,v) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -213,6 +223,11 @@ KeyClient;
 #endif /* __CAProxyLib_LIBRARY_DEFINED__ */
 
 /* Additional Prototypes for ALL interfaces */
+
+unsigned long             __RPC_USER  BSTR_UserSize(     unsigned long *, unsigned long            , BSTR * ); 
+unsigned char * __RPC_USER  BSTR_UserMarshal(  unsigned long *, unsigned char *, BSTR * ); 
+unsigned char * __RPC_USER  BSTR_UserUnmarshal(unsigned long *, unsigned char *, BSTR * ); 
+void                      __RPC_USER  BSTR_UserFree(     unsigned long *, BSTR * ); 
 
 /* end of Additional Prototypes */
 

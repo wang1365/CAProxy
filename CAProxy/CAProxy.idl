@@ -15,6 +15,7 @@ import "ocidl.idl";
 	pointer_default(unique)
 ]
 interface IKeyClient : IDispatch{
+	[id(1)] HRESULT help(BSTR* v);
 };
 [
 	uuid(10661CFA-50EB-4FC6-9EEA-F465A9DA0137),
