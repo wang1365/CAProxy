@@ -4,10 +4,10 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Mon Mar 13 22:21:30 2017
+/* at Tue Mar 14 01:39:27 2017
  */
 /* Compiler settings for CAProxy.idl:
-    Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0603 
+    Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
     protocol : dce , ms_ext, c_ext, robust
     error checks: allocation ref bounds_check enum stub_data 
     VC __declspec() decoration level: 
@@ -89,7 +89,149 @@ EXTERN_C const IID IID_IKeyClient;
     {
     public:
         virtual /* [id] */ HRESULT STDMETHODCALLTYPE help( 
-            BSTR *v) = 0;
+            /* [retval][out] */ BSTR *v) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetVersion( 
+            /* [retval][out] */ LONG *puiVersion) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_SetSignMethod( 
+            /* [in] */ LONG SignMethod) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetSignMethod( 
+            /* [retval][out] */ LONG *SignMethod) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_SetEncryptMethod( 
+            /* [in] */ LONG EncryptMethod) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetUserList( 
+            /* [retval][out] */ BSTR *userList) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_ExportUserCert( 
+            /* [in] */ BSTR CertID,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_Login( 
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR PassWd,
+            /* [retval][out] */ LONG *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_ChangePassWd( 
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR OldPassWd,
+            /* [in] */ BSTR NewPassWd,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_ExportExChangeUserCert( 
+            /* [in] */ BSTR CertID,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetCertInfo( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ LONG Type,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetCertInfoByOid( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR Oid,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetUserInfo( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ LONG Type,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_ValidateCert( 
+            /* [in] */ BSTR Cert,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_SignData( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_VerifySignedData( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InData,
+            /* [in] */ BSTR SignValue,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_SignFile( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InFile,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_VerifySignedFile( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InFile,
+            /* [in] */ BSTR SignValue,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_EncryptData( 
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR Indata,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_DecryptData( 
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR Indata,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_EncryptFile( 
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR InFile,
+            /* [in] */ BSTR OutFile,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_DecryptFile( 
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR InFile,
+            /* [in] */ BSTR OutFile,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_PubKeyEncrypt( 
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_PriKeyDecrypt( 
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_SignDataByP7( 
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_VerifySignedDataByP7( 
+            /* [in] */ BSTR P7Data,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetP7SignDataInfo( 
+            /* [in] */ BSTR P7Data,
+            /* [in] */ LONG type,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_SignDataXML( 
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_VerifySignedDataXML( 
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BOOL *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GetXMLSignatureInfo( 
+            /* [in] */ BSTR XMLSignedData,
+            /* [in] */ LONG type,
+            /* [retval][out] */ BSTR *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_CheckSupport( 
+            /* [retval][out] */ LONG *rv) = 0;
+        
+        virtual /* [id] */ HRESULT STDMETHODCALLTYPE SOF_GenRandom( 
+            LONG len,
+            /* [retval][out] */ BSTR *rv) = 0;
         
     };
     
@@ -151,7 +293,180 @@ EXTERN_C const IID IID_IKeyClient;
         
         /* [id] */ HRESULT ( STDMETHODCALLTYPE *help )( 
             IKeyClient * This,
-            BSTR *v);
+            /* [retval][out] */ BSTR *v);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetVersion )( 
+            IKeyClient * This,
+            /* [retval][out] */ LONG *puiVersion);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_SetSignMethod )( 
+            IKeyClient * This,
+            /* [in] */ LONG SignMethod);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetSignMethod )( 
+            IKeyClient * This,
+            /* [retval][out] */ LONG *SignMethod);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_SetEncryptMethod )( 
+            IKeyClient * This,
+            /* [in] */ LONG EncryptMethod);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetUserList )( 
+            IKeyClient * This,
+            /* [retval][out] */ BSTR *userList);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_ExportUserCert )( 
+            IKeyClient * This,
+            /* [in] */ BSTR CertID,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_Login )( 
+            IKeyClient * This,
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR PassWd,
+            /* [retval][out] */ LONG *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_ChangePassWd )( 
+            IKeyClient * This,
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR OldPassWd,
+            /* [in] */ BSTR NewPassWd,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_ExportExChangeUserCert )( 
+            IKeyClient * This,
+            /* [in] */ BSTR CertID,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetCertInfo )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ LONG Type,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetCertInfoByOid )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR Oid,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetUserInfo )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ LONG Type,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_ValidateCert )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_SignData )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_VerifySignedData )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InData,
+            /* [in] */ BSTR SignValue,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_SignFile )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InFile,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_VerifySignedFile )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InFile,
+            /* [in] */ BSTR SignValue,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_EncryptData )( 
+            IKeyClient * This,
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR Indata,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_DecryptData )( 
+            IKeyClient * This,
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR Indata,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_EncryptFile )( 
+            IKeyClient * This,
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR InFile,
+            /* [in] */ BSTR OutFile,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_DecryptFile )( 
+            IKeyClient * This,
+            /* [in] */ BSTR SymmKey,
+            /* [in] */ BSTR InFile,
+            /* [in] */ BSTR OutFile,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_PubKeyEncrypt )( 
+            IKeyClient * This,
+            /* [in] */ BSTR Cert,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_PriKeyDecrypt )( 
+            IKeyClient * This,
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_SignDataByP7 )( 
+            IKeyClient * This,
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_VerifySignedDataByP7 )( 
+            IKeyClient * This,
+            /* [in] */ BSTR P7Data,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetP7SignDataInfo )( 
+            IKeyClient * This,
+            /* [in] */ BSTR P7Data,
+            /* [in] */ LONG type,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_SignDataXML )( 
+            IKeyClient * This,
+            /* [in] */ BSTR CertID,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_VerifySignedDataXML )( 
+            IKeyClient * This,
+            /* [in] */ BSTR InData,
+            /* [retval][out] */ BOOL *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GetXMLSignatureInfo )( 
+            IKeyClient * This,
+            /* [in] */ BSTR XMLSignedData,
+            /* [in] */ LONG type,
+            /* [retval][out] */ BSTR *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_CheckSupport )( 
+            IKeyClient * This,
+            /* [retval][out] */ LONG *rv);
+        
+        /* [id] */ HRESULT ( STDMETHODCALLTYPE *SOF_GenRandom )( 
+            IKeyClient * This,
+            LONG len,
+            /* [retval][out] */ BSTR *rv);
         
         END_INTERFACE
     } IKeyClientVtbl;
@@ -191,6 +506,99 @@ EXTERN_C const IID IID_IKeyClient;
 
 #define IKeyClient_help(This,v)	\
     ( (This)->lpVtbl -> help(This,v) ) 
+
+#define IKeyClient_SOF_GetVersion(This,puiVersion)	\
+    ( (This)->lpVtbl -> SOF_GetVersion(This,puiVersion) ) 
+
+#define IKeyClient_SOF_SetSignMethod(This,SignMethod)	\
+    ( (This)->lpVtbl -> SOF_SetSignMethod(This,SignMethod) ) 
+
+#define IKeyClient_SOF_GetSignMethod(This,SignMethod)	\
+    ( (This)->lpVtbl -> SOF_GetSignMethod(This,SignMethod) ) 
+
+#define IKeyClient_SOF_SetEncryptMethod(This,EncryptMethod)	\
+    ( (This)->lpVtbl -> SOF_SetEncryptMethod(This,EncryptMethod) ) 
+
+#define IKeyClient_SOF_GetUserList(This,userList)	\
+    ( (This)->lpVtbl -> SOF_GetUserList(This,userList) ) 
+
+#define IKeyClient_SOF_ExportUserCert(This,CertID,rv)	\
+    ( (This)->lpVtbl -> SOF_ExportUserCert(This,CertID,rv) ) 
+
+#define IKeyClient_SOF_Login(This,CertID,PassWd,rv)	\
+    ( (This)->lpVtbl -> SOF_Login(This,CertID,PassWd,rv) ) 
+
+#define IKeyClient_SOF_ChangePassWd(This,CertID,OldPassWd,NewPassWd,rv)	\
+    ( (This)->lpVtbl -> SOF_ChangePassWd(This,CertID,OldPassWd,NewPassWd,rv) ) 
+
+#define IKeyClient_SOF_ExportExChangeUserCert(This,CertID,rv)	\
+    ( (This)->lpVtbl -> SOF_ExportExChangeUserCert(This,CertID,rv) ) 
+
+#define IKeyClient_SOF_GetCertInfo(This,Cert,Type,rv)	\
+    ( (This)->lpVtbl -> SOF_GetCertInfo(This,Cert,Type,rv) ) 
+
+#define IKeyClient_SOF_GetCertInfoByOid(This,Cert,Oid,rv)	\
+    ( (This)->lpVtbl -> SOF_GetCertInfoByOid(This,Cert,Oid,rv) ) 
+
+#define IKeyClient_SOF_GetUserInfo(This,Cert,Type,rv)	\
+    ( (This)->lpVtbl -> SOF_GetUserInfo(This,Cert,Type,rv) ) 
+
+#define IKeyClient_SOF_ValidateCert(This,Cert,rv)	\
+    ( (This)->lpVtbl -> SOF_ValidateCert(This,Cert,rv) ) 
+
+#define IKeyClient_SOF_SignData(This,Cert,InData,rv)	\
+    ( (This)->lpVtbl -> SOF_SignData(This,Cert,InData,rv) ) 
+
+#define IKeyClient_SOF_VerifySignedData(This,Cert,InData,SignValue,rv)	\
+    ( (This)->lpVtbl -> SOF_VerifySignedData(This,Cert,InData,SignValue,rv) ) 
+
+#define IKeyClient_SOF_SignFile(This,Cert,InFile,rv)	\
+    ( (This)->lpVtbl -> SOF_SignFile(This,Cert,InFile,rv) ) 
+
+#define IKeyClient_SOF_VerifySignedFile(This,Cert,InFile,SignValue,rv)	\
+    ( (This)->lpVtbl -> SOF_VerifySignedFile(This,Cert,InFile,SignValue,rv) ) 
+
+#define IKeyClient_SOF_EncryptData(This,SymmKey,Indata,rv)	\
+    ( (This)->lpVtbl -> SOF_EncryptData(This,SymmKey,Indata,rv) ) 
+
+#define IKeyClient_SOF_DecryptData(This,SymmKey,Indata,rv)	\
+    ( (This)->lpVtbl -> SOF_DecryptData(This,SymmKey,Indata,rv) ) 
+
+#define IKeyClient_SOF_EncryptFile(This,SymmKey,InFile,OutFile,rv)	\
+    ( (This)->lpVtbl -> SOF_EncryptFile(This,SymmKey,InFile,OutFile,rv) ) 
+
+#define IKeyClient_SOF_DecryptFile(This,SymmKey,InFile,OutFile,rv)	\
+    ( (This)->lpVtbl -> SOF_DecryptFile(This,SymmKey,InFile,OutFile,rv) ) 
+
+#define IKeyClient_SOF_PubKeyEncrypt(This,Cert,InData,rv)	\
+    ( (This)->lpVtbl -> SOF_PubKeyEncrypt(This,Cert,InData,rv) ) 
+
+#define IKeyClient_SOF_PriKeyDecrypt(This,CertID,InData,rv)	\
+    ( (This)->lpVtbl -> SOF_PriKeyDecrypt(This,CertID,InData,rv) ) 
+
+#define IKeyClient_SOF_SignDataByP7(This,CertID,InData,rv)	\
+    ( (This)->lpVtbl -> SOF_SignDataByP7(This,CertID,InData,rv) ) 
+
+#define IKeyClient_SOF_VerifySignedDataByP7(This,P7Data,rv)	\
+    ( (This)->lpVtbl -> SOF_VerifySignedDataByP7(This,P7Data,rv) ) 
+
+#define IKeyClient_SOF_GetP7SignDataInfo(This,P7Data,type,rv)	\
+    ( (This)->lpVtbl -> SOF_GetP7SignDataInfo(This,P7Data,type,rv) ) 
+
+#define IKeyClient_SOF_SignDataXML(This,CertID,InData,rv)	\
+    ( (This)->lpVtbl -> SOF_SignDataXML(This,CertID,InData,rv) ) 
+
+#define IKeyClient_SOF_VerifySignedDataXML(This,InData,rv)	\
+    ( (This)->lpVtbl -> SOF_VerifySignedDataXML(This,InData,rv) ) 
+
+#define IKeyClient_SOF_GetXMLSignatureInfo(This,XMLSignedData,type,rv)	\
+    ( (This)->lpVtbl -> SOF_GetXMLSignatureInfo(This,XMLSignedData,type,rv) ) 
+
+#define IKeyClient_SOF_CheckSupport(This,rv)	\
+    ( (This)->lpVtbl -> SOF_CheckSupport(This,rv) ) 
+
+#define IKeyClient_SOF_GenRandom(This,len,rv)	\
+    ( (This)->lpVtbl -> SOF_GenRandom(This,len,rv) ) 
 
 #endif /* COBJMACROS */
 

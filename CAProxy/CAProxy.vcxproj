@@ -268,6 +268,7 @@
     <ClInclude Include="dllmain.h" />
     <ClInclude Include="IClient.h" />
     <ClInclude Include="KeyClient.h" />
+    <ClInclude Include="logger.hpp" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

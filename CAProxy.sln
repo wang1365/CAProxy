@@ -6,9 +6,6 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CAProxy", "CAProxy\CAProxy.vcxproj", "{F956B047-718E-4392-9886-92504C5347C8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CAProxyTest", "CAProxyTest\CAProxyTest.vcxproj", "{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F956B047-718E-4392-9886-92504C5347C8} = {F956B047-718E-4392-9886-92504C5347C8}
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

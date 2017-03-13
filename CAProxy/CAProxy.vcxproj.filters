@@ -43,11 +43,11 @@
     <ClCompile Include="CAProxy_i.c">
       <Filter>生成的文件</Filter>
     </ClCompile>
-    <ClCompile Include="KeyClient.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="USBKeyClient.cpp">
       <Filter>impl</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyClient.cpp">
+      <Filter>interface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,9 +69,6 @@
     <ClInclude Include="CAProxy_i.h">
       <Filter>生成的文件</Filter>
     </ClInclude>
-    <ClInclude Include="KeyClient.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="IClient.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -80,6 +77,12 @@
     </ClInclude>
     <ClInclude Include="USBKeyClient.h">
       <Filter>impl</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyClient.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.hpp">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -103,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <Midl Include="CAProxy.idl">
-      <Filter>源文件</Filter>
+      <Filter>interface</Filter>
     </Midl>
   </ItemGroup>
 </Project>

@@ -25,10 +25,12 @@ void test_activex() {
 	{ 
 		ATL::CComPtr<IKeyClient> pMyActiveX;
 		if (S_OK == pMyActiveX.CoCreateInstance(clsid)) {
-			BSTR result = ::SysAllocStringLen(L"", 256);
-			pMyActiveX->help(&result);
+			BSTR result = pMyActiveX->help();
 			wprintf(L"%s", result);
 			::SysFreeString(result);
+
+			LONG version = pMyActiveX->SOF_GetVersion();
+			wprintf(L"%d", version);
 		}
 	}
 }
