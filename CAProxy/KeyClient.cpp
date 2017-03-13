@@ -10,13 +10,6 @@
 
 STDMETHODIMP CKeyClient::help(BSTR* v)
 {
-	if (v != NULL)
-	{
-		::SysFreeString(*v);
-		*v = NULL;
-	}
-
-	*v = ::SysAllocString(L"This ActiveX control is used to manage CA from USBKey device.");
-
+	proxy->help(v);
 	return S_OK;
 }

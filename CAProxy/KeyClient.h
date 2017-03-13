@@ -6,6 +6,8 @@
 
 
 #include "CAProxy_i.h"
+#include "USBKeyClient.h"
+#include <memory>
 
 
 
@@ -23,9 +25,12 @@ class ATL_NO_VTABLE CKeyClient :
 	public CComCoClass<CKeyClient, &CLSID_KeyClient>,
 	public IDispatchImpl<IKeyClient, &IID_IKeyClient, &LIBID_CAProxyLib, /*wMajor =*/ 1, /*wMinor =*/ 0>
 {
+private:
+	std::shared_ptr<IClient> proxy;
 public:
 	CKeyClient()
 	{
+		proxy = std::make_shared<USBKeyClient>();
 	}
 
 DECLARE_REGISTRY_RESOURCEID(IDR_KEYCLIENT)

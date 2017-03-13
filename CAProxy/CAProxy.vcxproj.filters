@@ -17,6 +17,15 @@
       <UniqueIdentifier>{80f0e585-a2b7-4d48-8cf8-921e965677b3}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="interface">
+      <UniqueIdentifier>{23ed4713-606f-463a-9e84-c46028ff82c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="impl">
+      <UniqueIdentifier>{4dd22389-3b6c-463e-bcdb-6d10bf126458}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{b8b82e63-3562-4450-a6aa-4770f2e3707b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -36,6 +45,9 @@
     </ClCompile>
     <ClCompile Include="KeyClient.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="USBKeyClient.cpp">
+      <Filter>impl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,6 +71,15 @@
     </ClInclude>
     <ClInclude Include="KeyClient.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="IClient.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="define.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="USBKeyClient.h">
+      <Filter>impl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
