@@ -21,13 +21,16 @@
 void test_activex() {
 	
 	CLSID clsid;
-	HRESULT hResult1 = CLSIDFromProgID(OLESTR("CAProxy.IKeyClient.1"), &clsid);
-	ATL::CComPtr<IKeyClient> pMyActiveX;
-	HRESULT hResult2 = pMyActiveX.CoCreateInstance(clsid);
-	BSTR result = ::SysAllocStringLen(L"", 256);
-	BSTR p1 = ::SysAllocStringLen(L"", 256);
-	pMyActiveX->help(&p1);
-	wprintf(L"%s", p1);
+	if (S_OK == CLSIDFromProgID(OLESTR("CAProxy.IKeyClient.1"), &clsid))
+	{ 
+		ATL::CComPtr<IKeyClient> pMyActiveX;
+		if (S_OK == pMyActiveX.CoCreateInstance(clsid)) {
+			BSTR result = ::SysAllocStringLen(L"", 256);
+			pMyActiveX->help(&result);
+			wprintf(L"%s", result);
+			::SysFreeString(result);
+		}
+	}
 }
 
 int main()
