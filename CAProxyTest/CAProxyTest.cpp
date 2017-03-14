@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include <windows.h>
+#include <assert.h>
 
 #ifdef DEBUG
 	#ifdef _WIN64
@@ -31,6 +32,8 @@ void test_activex() {
 
 			LONG version = pMyActiveX->SOF_GetVersion();
 			wprintf(L"%d", version);
+
+			assert(S_OK == pMyActiveX->SOF_SetSignMethod(12L));
 		}
 	}
 }

@@ -1,31 +1,84 @@
-<html >
-<head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> </head>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
 
 <body>
 	<object classid="clsid:5788ACA3-28AE-402F-B952-8DB113F8396F" id="activeXObject" name="activeXObject"></object>
-	
+
 	<form id="form1" name="form1" method="post" action="">
-	   <a href="#" onclick="return callActiveXMethod();">调用ActiveX测试</a>
-	   <input id="Write" name="Write" type="button" value="调用ActiveX测试" onclick="return callActiveXMethod();"/>
+		<input id="Write" name="Write" type="button" value="test_SOF_GetVersion" onclick="return test_SOF_GetVersion();" /><br/><br/>
+		<input id="Write" name="Write" type="button" value="test_SOF_SetSignMethod" onclick="return test_SOF_SetSignMethod(12);" /><br/><br/>
+		<input id="Write" name="Write" type="button" value="test_SOF_GetSignMethod" onclick="return test_SOF_GetSignMethod();" /><br/><br/>
 	</form>
 
-	<script language="JavaScript">
-		//JavaScript调用Demo
-		 function callActiveXMethod() {
-			try {
-				obj = document.getElementById("activeXObject");
-				alert(obj);
-				var helpText = obj.help();
-				alert(helpText)
-				
-				var version = {};
-				alert(obj.SOF_GetVersion(version));
-				alert(version.value);
-			 } catch (e) {
-				alert("调用失败: " + e);
-			 }  
-		 return false;
-	 }
+	<script language="javaScript">
+		var x = document.getElementById('activeXObject');
+
+		function test_SOF_GetVersion() { 
+			alert('SOF_GetVersion: ' + x.SOF_GetVersion()); 
+		}
+
+		function test_SOF_SetSignMethod(sm) { 
+			x.SOF_SetSignMethod(sm); 
+			alert('SOF_SetSignMethod OK');
+		}
+		
+		function test_SOF_GetSignMethod() { 
+			alert('SOF_GetSignMethod: ' + x.SOF_GetSignMethod()); 
+		}
+
+		function testInterfaceValidation() {
+			var interfaces = [
+				'SOF_GetVersion',
+				'SOF_SetSignMethod',
+				'SOF_GetSignMethod',
+				'SOF_SetEncryptMethod',
+				'SOF_GetUserList',
+				'SOF_ExportUserCert',
+				'SOF_Login',
+				'SOF_ChangePassWd',
+				'SOF_ExportExChangeUserCert',
+				'SOF_GetCertInfo',
+				'SOF_GetCertInfoByOid',
+				'SOF_GetUserInfo',
+				'SOF_ValidateCert',
+				'SOF_SignData',
+				'SOF_VerifySignedData',
+				'SOF_SignFile',
+				'SOF_VerifySignedFile',
+				'SOF_EncryptData',
+				'SOF_DecryptData',
+				'SOF_EncryptFile',
+				'SOF_DecryptFile',
+				'SOF_PubKeyEncrypt',
+				'SOF_PriKeyDecrypt',
+				'SOF_SignDataByP7',
+				'SOF_VerifySignedDataByP7',
+				'SOF_GetP7SignDataInfo',
+				'SOF_SignDataXML',
+				'SOF_VerifySignedDataXML',
+				'SOF_GetXMLSignatureInfo',
+				'SOF_CheckSupport',
+				'SOF_GenRandom'
+			];
+
+			var fail;
+			for ( var i in interfaces) {
+				if (x.hasOwnProperty(interfaces[i]) === false) {
+					fail += interfaces[i] + ', ';
+				}
+			}
+			if (fail) {
+				alert('Not found below interface: ' + fail)
+			} else {
+				alert('All interfaces are defined in activx, count: ' + interfaces.length);
+			}
+		}
+
+		testInterfaceValidation();
 	</script>
 </body>
+
 </html>
