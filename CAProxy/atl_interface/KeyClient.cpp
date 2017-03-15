@@ -20,10 +20,10 @@ STDMETHODIMP CKeyClient::SOF_GetVersion(LONG* puiVersion)
 {
 	// TODO: 在此添加实现代码
 	proxy->SOF_GetVersion((unsigned int*)(puiVersion));
-	Logger::getInstance().setLevel(Logger::FATAL);
-	Logger::getInstance().error("This is a error test");
+	//Logger::getInstance().setLevel(Logger::FATAL);
+	//Logger::getInstance().error("This is a error test");
 
-	return S_OK;
+	return 123;
 }
 
 STDMETHODIMP CKeyClient::SOF_SetSignMethod(LONG SignMethod)

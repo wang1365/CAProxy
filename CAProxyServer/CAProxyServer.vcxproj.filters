@@ -14,27 +14,15 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="生成的文件">
-      <UniqueIdentifier>{80f0e585-a2b7-4d48-8cf8-921e965677b3}</UniqueIdentifier>
+      <UniqueIdentifier>{9d241e79-bb05-4b05-a98e-d2766244037d}</UniqueIdentifier>
       <SourceControlFiles>False</SourceControlFiles>
-    </Filter>
-    <Filter Include="common">
-      <UniqueIdentifier>{b8b82e63-3562-4450-a6aa-4770f2e3707b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="atl_interface">
-      <UniqueIdentifier>{a55b6596-8c0a-4640-96ac-2f12ab9c6805}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="custom_interface">
-      <UniqueIdentifier>{23ed4713-606f-463a-9e84-c46028ff82c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="custom_impl">
-      <UniqueIdentifier>{4dd22389-3b6c-463e-bcdb-6d10bf126458}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CAProxy.cpp">
+    <ClCompile Include="CAProxyServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="dllmain.cpp">
@@ -43,14 +31,11 @@
     <ClCompile Include="xdlldata.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="CAProxy_i.c">
+    <ClCompile Include="CAProxyServer_i.c">
       <Filter>生成的文件</Filter>
     </ClCompile>
-    <ClCompile Include="atl_interface\KeyClient.cpp">
-      <Filter>atl_interface</Filter>
-    </ClCompile>
-    <ClCompile Include="custom_impl\ClientServerAPIImpl.cpp">
-      <Filter>custom_impl</Filter>
+    <ClCompile Include="KeyServer.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -69,27 +54,15 @@
     <ClInclude Include="xdlldata.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="CAProxy_i.h">
+    <ClInclude Include="CAProxyServer_i.h">
       <Filter>生成的文件</Filter>
     </ClInclude>
-    <ClInclude Include="common\define.h">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="common\logger.hpp">
-      <Filter>common</Filter>
-    </ClInclude>
-    <ClInclude Include="atl_interface\KeyClient.h">
-      <Filter>atl_interface</Filter>
-    </ClInclude>
-    <ClInclude Include="custom_impl\ClientServerAPIImpl.h">
-      <Filter>custom_impl</Filter>
-    </ClInclude>
-    <ClInclude Include="custom_interface\IClientServerAPI.h">
-      <Filter>custom_interface</Filter>
+    <ClInclude Include="KeyServer.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="CAProxy.rc">
+    <ResourceCompile Include="CAProxyServer.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -97,19 +70,19 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CAProxy.rgs">
+    <None Include="CAProxyServer.rgs">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="CAProxy.def">
+    <None Include="CAProxyServer.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="KeyClient.rgs">
+    <None Include="KeyServer.rgs">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Midl Include="CAProxy.idl">
-      <Filter>atl_interface</Filter>
+    <Midl Include="CAProxyServer.idl">
+      <Filter>源文件</Filter>
     </Midl>
   </ItemGroup>
 </Project>

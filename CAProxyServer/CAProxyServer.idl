@@ -1,0 +1,34 @@
+// CAProxyServer.idl : CAProxyServer的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(CAProxyServer.tlb)和封送处理代码。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(24DD0B2C-7C00-45AF-81B9-059FBCB6AF91),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IKeyServer : IDispatch{
+};
+[
+	uuid(F3C86D37-58DD-49B2-9F71-7E1BBA196644),
+	version(1.0),
+]
+library CAProxyServerLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(97340466-ED4E-4E94-87EF-C1A9E16F0456)		
+	]
+	coclass KeyServer
+	{
+		[default] interface IKeyServer;
+	};
+};
+

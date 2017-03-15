@@ -1,13 +1,12 @@
-// KeyClient.h : CKeyClient 的声明
+// KeyServer.h : CKeyServer 的声明
 
 #pragma once
-#include "../resource.h"       // 主符号
+#include "resource.h"       // 主符号
 
 
-
-#include "../CAProxy_i.h"
-#include "../custom_impl/ClientServerAPIImpl.h"
 #include <memory>
+#include "CAProxyServer_i.h"
+#include "../CAProxy/custom_impl/USBKeyClient.h"
 
 
 
@@ -18,28 +17,28 @@
 using namespace ATL;
 
 
-// CKeyClient
+// CKeyServer
 
-class ATL_NO_VTABLE CKeyClient :
+class ATL_NO_VTABLE CKeyServer :
 	public CComObjectRootEx<CComSingleThreadModel>,
-	public CComCoClass<CKeyClient, &CLSID_KeyClient>,
-	public IDispatchImpl<IKeyClient, &IID_IKeyClient, &LIBID_CAProxyLib, /*wMajor =*/ 1, /*wMinor =*/ 0>,
-	public IObjectSafetyImpl<CKeyClient, INTERFACESAFE_FOR_UNTRUSTED_CALLER>
+	public CComCoClass<CKeyServer, &CLSID_KeyServer>,
+	public IDispatchImpl<IKeyServer, &IID_IKeyServer, &LIBID_CAProxyServerLib, /*wMajor =*/ 1, /*wMinor =*/ 0>,
+	public IObjectSafetyImpl<CKeyServer, INTERFACESAFE_FOR_UNTRUSTED_CALLER>
 {
 private:
 	std::shared_ptr<IClientServerAPI> proxy;
 public:
-	CKeyClient()
+	CKeyServer()
 	{
 		proxy = std::make_shared<ClientServerAPIImpl>();
 	}
 
-DECLARE_REGISTRY_RESOURCEID(IDR_KEYCLIENT)
+DECLARE_REGISTRY_RESOURCEID(IDR_KEYSERVER)
 
-DECLARE_NOT_AGGREGATABLE(CKeyClient)
+DECLARE_NOT_AGGREGATABLE(CKeyServer)
 
-BEGIN_COM_MAP(CKeyClient)
-	COM_INTERFACE_ENTRY(IKeyClient)
+BEGIN_COM_MAP(CKeyServer)
+	COM_INTERFACE_ENTRY(IKeyServer)
 	COM_INTERFACE_ENTRY(IDispatch)
 	COM_INTERFACE_ENTRY(IObjectSafety)
 END_COM_MAP()
@@ -58,22 +57,26 @@ END_COM_MAP()
 	}
 
 public:
+	STDMETHOD(SOF_SetCertTrustList)(BSTR CTLAltName, BSTR CTLContent, LONG CTLContentLen);
+	STDMETHOD(SOF_QueryCertTrustListAltNames)(BSTR* rv);
+	STDMETHOD(SOF_QueryCertTrustList)(BSTR CTLAltName, BSTR* rv);
+	STDMETHOD(SOF_DelCertTrustList)(BSTR CTLAltName);
+	STDMETHOD(SOF_SetWebAppName)(BSTR WebAppName);
 
-
-
-	STDMETHOD(help)(BSTR* v);
-	STDMETHOD(SOF_GetVersion)(LONG* puiVersion);
+	// 6 - 9 same with client api ---------
 	STDMETHOD(SOF_SetSignMethod)(LONG SignMethod);
 	STDMETHOD(SOF_GetSignMethod)(LONG* SignMethod);
 	STDMETHOD(SOF_SetEncryptMethod)(LONG EncryptMethod);
-	STDMETHOD(SOF_GetUserList)(BSTR* userList);
-	STDMETHOD(SOF_ExportUserCert)(BSTR CertID, BSTR* rv);
-	STDMETHOD(SOF_Login)(BSTR CertID, BSTR PassWd, LONG* rv);
-	STDMETHOD(SOF_ChangePassWd)(BSTR CertID, BSTR OldPassWd, BSTR NewPassWd, BOOL* rv);
-	STDMETHOD(SOF_ExportExChangeUserCert)(BSTR CertID, BSTR* rv);
+	STDMETHOD(SOF_GetEncryptMethod)(LONG* EncryptMethod);
+	//-------------------------------------
+
+	STDMETHOD(SOF_GetServerCertificate)(LONG CertUsage, BSTR* rv);
+
+
+	// 11 - 30 same with client api ---------
+	STDMETHOD(SOF_GenRandom)(LONG len, LONG* rv);
 	STDMETHOD(SOF_GetCertInfo)(BSTR Cert, LONG Type, BSTR* rv);
 	STDMETHOD(SOF_GetCertInfoByOid)(BSTR Cert, BSTR Oid, BSTR* rv);
-	STDMETHOD(SOF_GetUserInfo)(BSTR Cert, LONG Type, BSTR* rv);
 	STDMETHOD(SOF_ValidateCert)(BSTR Cert, BOOL* rv);
 	STDMETHOD(SOF_SignData)(BSTR Cert, BSTR InData, BSTR* rv);
 	STDMETHOD(SOF_VerifySignedData)(BSTR Cert, BSTR InData, BSTR SignValue, BOOL* rv);
@@ -91,8 +94,14 @@ public:
 	STDMETHOD(SOF_SignDataXML)(BSTR CertID, BSTR InData, BSTR* rv);
 	STDMETHOD(SOF_VerifySignedDataXML)(BSTR InData, BOOL* rv);
 	STDMETHOD(SOF_GetXMLSignatureInfo)(BSTR XMLSignedData, LONG type, BSTR* rv);
-	STDMETHOD(SOF_CheckSupport)(LONG* rv);
-	STDMETHOD(SOF_GenRandom)(LONG len, BSTR* rv);
+	//-------------------------------------
+	
+	STDMETHOD(SOF_CreateTimeStampRequest)(BSTR InData, BSTR* rv);
+	STDMETHOD(SOF_CreateTimeStampRequest)(BSTR InData, BSTR* rv);
+	STDMETHOD(SOF_VerifyTimeStamp)(BSTR content, BSTR tsResponseData, LONG* rv);
+	STDMETHOD(SOF_GetTimeStampInfo)(BSTR tsResponseData, LONG type, BSTR* rv);
+	STDMETHOD(SOF_GetLastError)(LONG* rv);
+
 };
 
-OBJECT_ENTRY_AUTO(__uuidof(KeyClient), CKeyClient)
+OBJECT_ENTRY_AUTO(__uuidof(KeyServer), CKeyServer)
