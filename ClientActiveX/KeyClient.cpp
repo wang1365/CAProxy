@@ -9,6 +9,7 @@
 #include "comutil.h"
 #include "stringutil.h"
 #include "util.hpp"
+#include "USBKeyAPIWrapper.h"
 
 // CKeyClient
 
@@ -113,19 +114,21 @@ STDMETHODIMP CKeyClient::SOF_ExportUserCert(BSTR CertID, BSTR * strCertContext)
 	dwRet = HS_ChangeCertID(pCertID, szDeviceName, szContainerName);
 	dwRet = HS_GetDeviceHandle(szDeviceName, &hCard);
 
-	dwRet = HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+	dwRet = pAPIWrapper->x_HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
 
 	for (i = 0; i<dwConNum; i++)
 	{
 		memset(szConName, 0x00, 1024);
 		dwConNameLen = 1024;
-		dwRet = HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
+		dwRet = pAPIWrapper->x_HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
 		if ((dwConParam & 0x00020000) == 0x00020000)
 		{
 			dwRet = memcmp(szConName, szContainerName, strlen(szConName));
 			if (0 == dwRet)
 			{
-				dwRet = HSReadCert(hCard, szConName, AT_SIGNATURE, bCert, &dwCertLen);
+				dwRet = pAPIWrapper->x_HSReadCert(hCard, szConName, AT_SIGNATURE, bCert, &dwCertLen);
 				if (dwRet == 0)
 				{
 					CBase64Codec::Encode(bCert, dwCertLen, bBase64, &dwBase64Len);
@@ -158,6 +161,9 @@ STDMETHODIMP CKeyClient::SOF_Login(BSTR CertID, BSTR PassWd, int *nRetryCount)
 	HANDLE hCard = NULL;
 	char *pPassWord = NULL;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	pPassWord = _com_util::ConvertBSTRToString(PassWd);
 
 	char szDeviceName[256] = { 0 }, szConName[256] = { 0 }, *pCertID = NULL;
@@ -183,7 +189,7 @@ STDMETHODIMP CKeyClient::SOF_Login(BSTR CertID, BSTR PassWd, int *nRetryCount)
 	dwRet = HS_ChangeCertID(pCertID, szDeviceName, szConName);
 	dwRet = HS_GetDeviceHandle(szDeviceName, &hCard);
 
-	dwRet = HSVerifyUserPin(hCard, pPassWord, &dwRetryCount);
+	dwRet = pAPIWrapper->x_HSVerifyUserPin(hCard, pPassWord, &dwRetryCount);
 	if (dwRet == 0x8800003D)
 	{
 		*nRetryCount = dwRetryCount;
@@ -215,6 +221,9 @@ STDMETHODIMP CKeyClient::SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd, BSTR NewP
 	WCHAR wszRetryCount[200] = { 0 };
 	char szDeviceName[256] = { 0 }, szConName[256] = { 0 };
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	try
 	{
 		pCertID = _com_util::ConvertBSTRToString(CertID);
@@ -241,7 +250,7 @@ STDMETHODIMP CKeyClient::SOF_ChangePassWd(BSTR CertID, BSTR OldPassWd, BSTR NewP
 
 		dwRet = HS_GetDeviceHandle(szDeviceName, &hCard);
 
-		dwRet = HSChangeUserPin(hCard, pOldPIN, pNewPIN, &dwRetryCount);
+		dwRet = pAPIWrapper->x_HSChangeUserPin(hCard, pOldPIN, pNewPIN, &dwRetryCount);
 		if (dwRet == 0)
 		{
 			*pbResult = TRUE;
@@ -273,6 +282,9 @@ STDMETHODIMP CKeyClient::SOF_ExportExChangeUserCert(BSTR CertID, BSTR * strCert)
 	char szDeviceName[256] = { 0 }, szContainerName[256] = { 0 }, *pCertID = NULL;
 	pCertID = _com_util::ConvertBSTRToString(CertID);
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	if (strlen(pCertID) > 100)
 	{
 		return S_FALSE;
@@ -281,19 +293,19 @@ STDMETHODIMP CKeyClient::SOF_ExportExChangeUserCert(BSTR CertID, BSTR * strCert)
 	dwRet = HS_ChangeCertID(pCertID, szDeviceName, szContainerName);
 	dwRet = HS_GetDeviceHandle(szDeviceName, &hCard);
 
-	dwRet = HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
+	dwRet = pAPIWrapper->x_HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
 
 	for (i = 0; i<dwConNum; i++)
 	{
 		memset(szConName, 0x00, 1024);
 		dwConNameLen = 1024;
-		dwRet = HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
+		dwRet = pAPIWrapper->x_HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
 		if ((dwConParam & 0x00000002) == 0x00000002)
 		{
 			dwRet = memcmp(szConName, szContainerName, strlen(szConName));
 			if (0 == dwRet)
 			{
-				dwRet = HSReadCert(hCard, szConName, AT_KEYEXCHANGE, bCert, &dwCertLen);
+				dwRet = pAPIWrapper->x_HSReadCert(hCard, szConName, AT_KEYEXCHANGE, bCert, &dwCertLen);
 				if (dwRet == 0)
 				{
 					Base64.Encode(bCert, dwCertLen, bBase64, &dwBase64Len);
@@ -900,6 +912,9 @@ STDMETHODIMP CKeyClient::SOF_SignData(BSTR CertID, BSTR InData, BSTR * strDecDat
 	DWORD dwConNameLen = 1024, dwConParam = 0, dwConNum = 0;
 	BYTE bInData[256] = { 0 };
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	p = _com_util::ConvertBSTRToString(InData);
 
 	dwInDataLen = strlen(p);
@@ -916,19 +931,19 @@ STDMETHODIMP CKeyClient::SOF_SignData(BSTR CertID, BSTR InData, BSTR * strDecDat
 	dwRet = HS_GetDeviceHandle(szDeviceName, &hCard);
 
 	dwRet = HS_HashData(hCard, (BYTE *)p, dwInDataLen, bInData);
-	dwRet = HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
+	dwRet = pAPIWrapper->x_HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
 
 	for (i = 0; i<dwConNum; i++)
 	{
 		memset(szConName, 0x00, 1024);
 		dwConNameLen = 1024;
-		dwRet = HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
+		dwRet = pAPIWrapper->x_HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
 		if ((dwConParam & 0x00010000) == 0x00010000)
 		{
 			dwRet = memcmp(szConName, szContainerName, strlen(szConName));
 			if (0 == dwRet)
 			{
-				dwRet = HSRSASign(hCard, szConName, AT_SIGNATURE, 3, bInData, 128, bOutData, &dwOutDataLen);
+				dwRet = pAPIWrapper->x_HSRSASign(hCard, szConName, AT_SIGNATURE, 3, bInData, 128, bOutData, &dwOutDataLen);
 				break;
 			}
 		}
@@ -963,6 +978,9 @@ STDMETHODIMP CKeyClient::SOF_VerifySignedData(BSTR Cert, BSTR InData, BSTR SignV
 	BYTE bRelCert[5 * 1024] = { 0 }, bOutData[256] = { 0 }, bRelSign[256] = { 0 };
 	BYTE *bInData = NULL;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	p = _com_util::ConvertBSTRToString(InData);
 	dwInDataLen = strlen(p);
 	bInData = new BYTE[dwInDataLen + 100];
@@ -987,7 +1005,7 @@ STDMETHODIMP CKeyClient::SOF_VerifySignedData(BSTR Cert, BSTR InData, BSTR SignV
 	dwSignLen = strlen(p);
 	Base64.Decode((BYTE *)p, dwSignLen, bRelSign, &dwRelSignLen);
 
-	dwRet = HSRSAVerifySoft(rsa_pub_st, 1, bRelSign, 128, bOutData2, &dwOutData2);
+	dwRet = pAPIWrapper->x_HSRSAVerifySoft(rsa_pub_st, 1, bRelSign, 128, bOutData2, &dwOutData2);
 
 	if (dwVerifyLen == dwOutData2)
 	{
@@ -1018,6 +1036,9 @@ STDMETHODIMP CKeyClient::SOF_SignFile(BSTR CertID, BSTR InFile, BSTR * strSignDa
 	DWORD dwOutDataLen = 256, dwRetryNum = 0, dwFileSize = 0;
 	BYTE *bInData = NULL;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	p = _com_util::ConvertBSTRToString(InFile);
 
 	FILE *fpIn = NULL;
@@ -1045,19 +1066,19 @@ STDMETHODIMP CKeyClient::SOF_SignFile(BSTR CertID, BSTR InFile, BSTR * strSignDa
 
 	dwRet = HS_HashData(hCard, bInData, dwInDataLen, bOutData);
 
-	dwRet = HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
+	dwRet = pAPIWrapper->x_HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
 
 	for (i = 0; i<dwConNum; i++)
 	{
 		memset(szConName, 0x00, 1024);
 		dwConNameLen = 1024;
-		dwRet = HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
+		dwRet = pAPIWrapper->x_HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
 		if ((dwConParam & 0x00010000) == 0x00010000)
 		{
 			dwRet = memcmp(szConName, szContainerName, strlen(szConName));
 			if (0 == dwRet)
 			{
-				dwRet = HSRSASign(hCard, szConName, AT_SIGNATURE, 3,
+				dwRet = pAPIWrapper->x_HSRSASign(hCard, szConName, AT_SIGNATURE, 3,
 					bOutData, 128, bRelOutData, &dwOutDataLen);
 				break;
 			}
@@ -1098,6 +1119,9 @@ STDMETHODIMP CKeyClient::SOF_VerifySignedFile(BSTR Cert, BSTR InFile, BSTR SignV
 	BYTE bSign[1000] = { 0 }, bRelSign[1000] = { 0 };
 	DWORD dwSignLen = 1000, dwRelSignLen = 1000, dwVerifyLen = 0;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	p = _com_util::ConvertBSTRToString(InFile);
 
 	FILE *fpIn = NULL;
@@ -1133,7 +1157,7 @@ STDMETHODIMP CKeyClient::SOF_VerifySignedFile(BSTR Cert, BSTR InFile, BSTR SignV
 	dwSignLen = strlen(p);
 	Base64.Decode((BYTE *)p, dwSignLen, bRelSign, &dwRelSignLen);
 
-	dwRet = HSRSAVerifySoft(rsa_pub_st, 1, bRelSign, 128, bOutData2, &dwOutData2);
+	dwRet = pAPIWrapper->x_HSRSAVerifySoft(rsa_pub_st, 1, bRelSign, 128, bOutData2, &dwOutData2);
 
 	if (dwVerifyLen == dwOutData2)
 	{
@@ -1432,6 +1456,9 @@ STDMETHODIMP CKeyClient::SOF_PubKeyEncrypt(BSTR Cert, BSTR InData, BSTR* strEncD
 	DWORD dwRelCertLen = 3000;
 	CBase64Codec Base64;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	p = _com_util::ConvertBSTRToString(Cert);
 
 	dwCertLen = strlen(p);
@@ -1447,7 +1474,7 @@ STDMETHODIMP CKeyClient::SOF_PubKeyEncrypt(BSTR Cert, BSTR InData, BSTR* strEncD
 	p = _com_util::ConvertBSTRToString(InData);
 	dwDataLen = strlen(p);
 
-	dwRet = HSRSAEncryptSoft(rsa_pub, 1, (BYTE *)p, dwDataLen, bOutData, &dwOutDataLen);
+	dwRet = pAPIWrapper->x_HSRSAEncryptSoft(rsa_pub, 1, (BYTE *)p, dwDataLen, bOutData, &dwOutDataLen);
 
 	BYTE bBase64[2000] = { 0 };
 	DWORD dwBase64Len = 2000;
@@ -1483,6 +1510,9 @@ STDMETHODIMP CKeyClient::SOF_PriKeyDecrypt(BSTR CertID, BSTR InData, BSTR* strSr
 	BYTE bRelInData[2000] = { 0 };
 	DWORD dwConNameLen = 1024, dwConParam = 0, dwConNum = 0, dwRelInDataLen = 2000;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	p = _com_util::ConvertBSTRToString(InData);
 	dwInDataLen = strlen(p);
 
@@ -1499,19 +1529,19 @@ STDMETHODIMP CKeyClient::SOF_PriKeyDecrypt(BSTR CertID, BSTR InData, BSTR* strSr
 	dwRet = HS_ChangeCertID(pCertID, szDeviceName, szContainerName);
 	dwRet = HS_GetDeviceHandle(szDeviceName, &hCard);
 
-	dwRet = HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
+	dwRet = pAPIWrapper->x_HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
 
 	for (i = 0; i<dwConNum; i++)
 	{
 		memset(szConName, 0x00, 1024);
 		dwConNameLen = 1024;
-		dwRet = HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
+		dwRet = pAPIWrapper->x_HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
 		if ((dwConParam & 0x00000001) == 0x00000001)
 		{
 			dwRet = memcmp(szConName, szContainerName, strlen(szConName));
 			if (0 == dwRet)
 			{
-				dwRet = HSRSADecrypt(hCard, szConName, AT_KEYEXCHANGE, RSA_PKCS1_PADDING,
+				dwRet = pAPIWrapper->x_HSRSADecrypt(hCard, szConName, AT_KEYEXCHANGE, RSA_PKCS1_PADDING,
 					bRelInData, dwRelInDataLen, bOutData, &dwOutDataLen);
 				break;
 			}
@@ -1706,6 +1736,9 @@ STDMETHODIMP CKeyClient::SOF_GenRandom(LONG usLen, BSTR* strNum)
 {
 	HS_Init();
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwRandomLen = 0, dwBaseLen = 512;
 	HANDLE hCard = NULL;
 	BYTE bRandom[256] = { 0 }, bBase[512] = { 0 };
@@ -1714,7 +1747,7 @@ STDMETHODIMP CKeyClient::SOF_GenRandom(LONG usLen, BSTR* strNum)
 
 	dwRet = HS_ConnectDevice(&hCard);
 
-	dwRet = HSGenRandom(hCard, dwRandomLen, bRandom);
+	dwRet = pAPIWrapper->x_HSGenRandom(hCard, dwRandomLen, bRandom);
 
 	Base64.Encode(bRandom, dwRandomLen, bBase, &dwBaseLen);
 

@@ -3,6 +3,8 @@
 #include <string>
 #include <iostream>
 
+#define LOG_ERROR(msg) Logger::getInstance().error(msg)
+
 class Logger
 {
 public:

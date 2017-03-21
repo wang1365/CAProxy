@@ -158,3 +158,5 @@ enum SGD {
 	SGD_SM3_RSA    =	0x00001001,	//SM3RSAÀ„∑® 
 	SGD_SM3_SM2    =	0x00020101	//SM3SM2À„∑®
 };
+
+#define CHECK_POINTER(P); if (P == nullptr) { return S_FALSE; }

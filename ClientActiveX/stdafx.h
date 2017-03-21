@@ -24,7 +24,7 @@
 #include <atlcom.h>
 #include <atlctl.h>
 #include "CertParser\CertParser.h"
-#include "HTCSPApi\HTCSPApi.h"
+
 
 #pragma comment(lib, "comsuppwd.lib")
 //#pragma comment(lib,"crypt32.lib")

@@ -3,11 +3,12 @@
 #include "HTCSPUtil.h"
 #include "HTCSPApi/HTCSPApi.h"
 #include "HTCSPApi/HYErrorCode.h"
+#include "USBKeyAPIWrapper.h"
+#include "define.h"
 
 //#include "TinyXML/tinyxml.h"
 //#include "TinyXML/tinystr.h"
 
-#pragma comment(lib, "HTCSPApi/HTCSPApi.lib")
 
 #pragma warning(push)
 #pragma warning( disable : 4996 )
@@ -33,9 +34,12 @@ DWORD HS_TestDevice(HANDLE hCard)
 	DWORD dwRet = 0;
 	BYTE bSerial[SERIAL_LEN] = {0};
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	try
 	{
-		dwRet = HSGetSerial(hCard, bSerial);
+		dwRet = pAPIWrapper->x_HSGetSerial(hCard, bSerial);
 	}
 	catch (...)
 	{
@@ -53,13 +57,16 @@ DWORD _stdcall InsertProc(void *pParam)
 	HANDLE hCard = NULL;
 	char *p = NULL;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	p = (char *)pParam;
 
 	for (i=0; i<10; i++)
 	{
 		if (Device_st[i].dwState == 0)
 		{
-			dwRet = HSConnectDev(p, &hCard);
+			dwRet = pAPIWrapper->x_HSConnectDev(p, &hCard);
 			strcpy(Device_st[i].szDeviceName, p);
 			Device_st[i].hCard = hCard;
 			Device_st[i].dwState = 1;
@@ -75,6 +82,9 @@ DWORD _stdcall RemoveProc(void *pParam)
 {
 	DWORD dwRet = 0, i = 0;
 
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	for (i=0; i<10; i++)
 	{
 		if (Device_st[i].dwState == 1)
@@ -82,7 +92,7 @@ DWORD _stdcall RemoveProc(void *pParam)
 			dwRet = memcmp((const char *)pParam, Device_st[i].szDeviceName, strlen((const char *)pParam));
 			if (dwRet == 0)
 			{
-				dwRet = HSDisconnectDev(Device_st[i].hCard);
+				dwRet = pAPIWrapper->x_HSDisconnectDev(Device_st[i].hCard);
 				Device_st[i].hCard = NULL;
 				memset(Device_st[i].szDeviceName, 0x00, 0x40);
 				Device_st[i].dwState = 0;
@@ -101,12 +111,16 @@ DWORD HS_Init()
 	{
 		return 0;
 	}
+
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwReaderNamesLen = 1024, dwReaderNum = 0, dwState = 0;
 	char *p = NULL;
 
 	try
 	{
-		if(dwRet = HSListReaders(g_szReaderName, &dwReaderNamesLen, &dwReaderNum))
+		if(dwRet = pAPIWrapper->x_HSListReaders(g_szReaderName, &dwReaderNamesLen, &dwReaderNum))
 		{
 			return dwRet;
 		}
@@ -114,14 +128,14 @@ DWORD HS_Init()
 		p = g_szReaderName;
 		while(p && *p!=0x00)
 		{
-			if(dwRet = HSGetDevState(p, &dwState))
+			if(dwRet = pAPIWrapper->x_HSGetDevState(p, &dwState))
 				return dwRet;
 			if(dwState == HGS_STATE_PRESENT)
 			{
 				if(dwRet = InsertProc(p))
 					return dwRet;
 			}
-			if(dwRet = HSSetDevChgEvent(p, InsertProc, RemoveProc, p, NULL))
+			if(dwRet = pAPIWrapper->x_HSSetDevChgEvent(p, InsertProc, RemoveProc, p, NULL))
 			{
 				return dwRet;
 			}
@@ -166,17 +180,21 @@ DWORD HS_ConnectDevice(HANDLE *phCard)
 		*phCard = g_hCard;
 		return 0;
 	}
+
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwReaderNameLen = 0, dwReaderNum = 0, i = 0, dwDevState = 0;
 	char szReaderName[1024] = {0};
 
 	memset(szReaderName, 0x00, sizeof(szReaderName));
 	dwReaderNameLen = sizeof(szReaderName);
-	dwRet = HSListReaders(szReaderName, &dwReaderNameLen, &dwReaderNum);
+	dwRet = pAPIWrapper->x_HSListReaders(szReaderName, &dwReaderNameLen, &dwReaderNum);
 
 	while(szReaderName[i] != 0x00)
 	{
 		dwDevState = 0x00;
-		dwRet = HSGetDevState(&szReaderName[i], &dwDevState);
+		dwRet = pAPIWrapper->x_HSGetDevState(&szReaderName[i], &dwDevState);
 
 		if(dwDevState == HGS_STATE_PRESENT)
 			break;
@@ -187,7 +205,7 @@ DWORD HS_ConnectDevice(HANDLE *phCard)
 		dwRet = HKI_ERR_DEV_NOTFOUND;
 	}
 
-	dwRet = HSConnectDev(&szReaderName[i], phCard);
+	dwRet = pAPIWrapper->x_HSConnectDev(&szReaderName[i], phCard);
 	g_hCard = *phCard;
 	return dwRet;
 }
@@ -195,12 +213,15 @@ DWORD HS_ConnectDevice(HANDLE *phCard)
 
 DWORD HS_HashData(HANDLE hCard, BYTE* pbData, DWORD dwDataLen, BYTE *pbOutData)
 {
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwOutDataLen = 256, dwRelOutDataLen = 256;
 	BYTE bHashData[60] = {0}, bOutData[256] = {0}, bRelOutData[256] = {0};
 
-	dwRet = HSSHA1(pbData, dwDataLen, bHashData);
-	dwRet = HSHashPadding(hCard, 1, bHashData, 20, bOutData, &dwOutDataLen);
-	dwRet = HSRSAPad(3, 1, 0x80, bOutData, dwOutDataLen, bRelOutData, &dwRelOutDataLen);
+	dwRet = pAPIWrapper->x_HSSHA1(pbData, dwDataLen, bHashData);
+	dwRet = pAPIWrapper->x_HSHashPadding(hCard, 1, bHashData, 20, bOutData, &dwOutDataLen);
+	dwRet = pAPIWrapper->x_HSRSAPad(3, 1, 0x80, bOutData, dwOutDataLen, bRelOutData, &dwRelOutDataLen);
 	memcpy(pbOutData, bRelOutData, dwRelOutDataLen);
 
 	return dwRet;
@@ -209,18 +230,21 @@ DWORD HS_HashData(HANDLE hCard, BYTE* pbData, DWORD dwDataLen, BYTE *pbOutData)
 
 DWORD HS_HashData_Verify(BYTE* pbData, DWORD dwDataLen, BYTE *pbOutData, DWORD *pdwOutDataLen)
 {
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwOutDataLen = 256, dwRelOutDataLen = 256;
 	BYTE bHashData[60] = {0}, bOutData[256] = {0}, bRelOutData[256] = {0};
 	HANDLE hCard = NULL;
 
 	dwRet = HS_ConnectDevice(&hCard);
 
-	dwRet = HSSHA1(pbData, dwDataLen, bHashData);
-	dwRet = HSHashPadding(hCard, 1, bHashData, 20, bOutData, &dwOutDataLen);
+	dwRet = pAPIWrapper->x_HSSHA1(pbData, dwDataLen, bHashData);
+	dwRet = pAPIWrapper->x_HSHashPadding(hCard, 1, bHashData, 20, bOutData, &dwOutDataLen);
 	*pdwOutDataLen = dwOutDataLen;
 	memcpy(pbOutData, bOutData, dwRelOutDataLen);
 
-	HSDisconnectDev(hCard);
+	pAPIWrapper->x_HSDisconnectDev(hCard);
 
 	return dwRet;
 }
@@ -267,6 +291,9 @@ DWORD  HexToStr(IN CONST BYTE *pbHex, IN DWORD dwHexLen, OUT BYTE *pbStr)
 
 DWORD HS_ListECertID(char *pszECertID)
 {
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwReaderNameLen = 0, dwReaderNum = 0, i = 0, dwDevState = 0;
 	DWORD dwConNameLen = 1024, dwConParam = 0, dwConNum = 0, j = 0;
 	char szReaderName[1024] = {0}, szConName[1024] = {0};
@@ -275,18 +302,18 @@ DWORD HS_ListECertID(char *pszECertID)
 
 	memset(szReaderName, 0x00, sizeof(szReaderName));
 	dwReaderNameLen = sizeof(szReaderName);
-	dwRet = HSListReaders(szReaderName, &dwReaderNameLen, &dwReaderNum);
+	dwRet = pAPIWrapper->x_HSListReaders(szReaderName, &dwReaderNameLen, &dwReaderNum);
 
 	while(szReaderName[i] != 0x00)
 	{
 		dwDevState = 0x00;
-		dwRet = HSGetDevState(&szReaderName[i], &dwDevState);
+		dwRet = pAPIWrapper->x_HSGetDevState(&szReaderName[i], &dwDevState);
 
 		if(dwDevState == HGS_STATE_PRESENT)
 		{
-			dwRet = HSConnectDev(&szReaderName[i], &hCard);
+			dwRet = pAPIWrapper->x_HSConnectDev(&szReaderName[i], &hCard);
 
-			dwRet = HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
+			dwRet = pAPIWrapper->x_HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
 			if (dwConNum == 0)
 			{
 				strcat(szCertID, &szReaderName[i]);
@@ -298,7 +325,7 @@ DWORD HS_ListECertID(char *pszECertID)
 				{
 					memset(szConName, 0x00, 1024);
 					dwConNameLen = 1024;
-					dwRet = HSGetContainerName(hCard, j, szConName, &dwConNameLen, &dwConParam);
+					dwRet = pAPIWrapper->x_HSGetContainerName(hCard, j, szConName, &dwConNameLen, &dwConParam);
 					if (dwConParam == 0x00000013)
 					{
 						strcat(szCertID, &szReaderName[i]);
@@ -309,7 +336,7 @@ DWORD HS_ListECertID(char *pszECertID)
 					
 				}
 			}
-			dwRet = HSDisconnectDev(hCard);
+			dwRet = pAPIWrapper->x_HSDisconnectDev(hCard);
 		}
 
 		i = i + strlen(&szReaderName[i]) + 1;
@@ -323,6 +350,9 @@ DWORD HS_ListECertID(char *pszECertID)
 
 DWORD HS_ListSCertID(char *pszSCertID)
 {
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwReaderNameLen = 0, dwReaderNum = 0, i = 0, dwDevState = 0;
 	DWORD dwConNameLen = 1024, dwConParam = 0, dwConNum = 0, j = 0;
 	char szReaderName[1024] = {0}, szConName[1024] = {0};
@@ -331,18 +361,18 @@ DWORD HS_ListSCertID(char *pszSCertID)
 
 	memset(szReaderName, 0x00, sizeof(szReaderName));
 	dwReaderNameLen = sizeof(szReaderName);
-	dwRet = HSListReaders(szReaderName, &dwReaderNameLen, &dwReaderNum);
+	dwRet = pAPIWrapper->x_HSListReaders(szReaderName, &dwReaderNameLen, &dwReaderNum);
 
 	while(szReaderName[i] != 0x00)
 	{
 		dwDevState = 0x00;
-		dwRet = HSGetDevState(&szReaderName[i], &dwDevState);
+		dwRet = pAPIWrapper->x_HSGetDevState(&szReaderName[i], &dwDevState);
 
 		if(dwDevState == HGS_STATE_PRESENT)
 		{
-			dwRet = HSConnectDev(&szReaderName[i], &hCard);
+			dwRet = pAPIWrapper->x_HSConnectDev(&szReaderName[i], &hCard);
 
-			dwRet = HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
+			dwRet = pAPIWrapper->x_HSListContainers(hCard, szConName, &dwConNameLen, &dwConNum);
 			if (dwConNum == 0)
 			{
 				strcat(szCertID, &szReaderName[i]);
@@ -354,7 +384,7 @@ DWORD HS_ListSCertID(char *pszSCertID)
 				{
 					memset(szConName, 0x00, 1024);
 					dwConNameLen = 1024;
-					dwRet = HSGetContainerName(hCard, j, szConName, &dwConNameLen, &dwConParam);
+					dwRet = pAPIWrapper->x_HSGetContainerName(hCard, j, szConName, &dwConNameLen, &dwConParam);
 					if (dwConParam == 0x00130000)
 					{
 						strcat(szCertID, &szReaderName[i]);
@@ -365,7 +395,7 @@ DWORD HS_ListSCertID(char *pszSCertID)
 
 				}
 			}
-			dwRet = HSDisconnectDev(hCard);
+			dwRet = pAPIWrapper->x_HSDisconnectDev(hCard);
 		}
 
 		i = i + strlen(&szReaderName[i]) + 1;
@@ -379,6 +409,9 @@ DWORD HS_ListSCertID(char *pszSCertID)
 
 DWORD HS_ListCertID(char *pszCertID)
 {
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwReaderNameLen = 0, dwReaderNum = 0, i = 0, dwDevState = 0;
 
 	char szECertID[1024] = {0}, szSCertID[1024] = {0};
@@ -524,165 +557,6 @@ DWORD HSLog(char *pszData, ...)
 }
 
 
-//BOOL MakeXML_Data(IN char *strDataTobeSign, IN char *strDigest, IN char *strCert, 
-//				  IN char *strSignature, OUT char *szBuf, OUT int *nLen)
-//{
-//	DWORD dwPos = 0;
-//	try
-//	{
-//		//创建一个XML的文档对象。
-//		TiXmlDocument *myDocument = new TiXmlDocument();
-//		//创建一个根元素并连接。
-//		TiXmlElement *RootElement = new TiXmlElement("Signature");
-//		myDocument->LinkEndChild(RootElement);
-//		RootElement->SetAttribute("xmlns", "http://www.w3.org/2000/09/xmldsig#");
-//		//创建SignedInfo并连接。
-//		TiXmlElement *SignedInfoElement = new TiXmlElement("SignedInfo");
-//		RootElement->LinkEndChild(SignedInfoElement);
-//		//创建CanonicalizationMethod
-//		TiXmlElement *CanonicalizationMethodElement = new TiXmlElement("CanonicalizationMethod");
-//		SignedInfoElement->LinkEndChild(CanonicalizationMethodElement);
-//		//设置CanonicalizationMethodElement元素的属性。
-//		CanonicalizationMethodElement->SetAttribute("Algorithm", "http://www.w3.org/TR/2001/REC-xml-c14n-20010315");
-//
-//		//创建SignatureMethod
-//		TiXmlElement *SignatureMethodElement = new TiXmlElement("SignatureMethod");
-//		SignedInfoElement->LinkEndChild(SignatureMethodElement);
-//		//设置SignatureMethodElement元素的属性。
-//		SignatureMethodElement->SetAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#rsa-sha1");
-//
-//		//创建Reference
-//		TiXmlElement *ReferenceElement = new TiXmlElement("Reference");
-//		SignedInfoElement->LinkEndChild(ReferenceElement);
-//		//设置ReferenceElement元素的属性。
-//		ReferenceElement->SetAttribute("URI", "#data");
-//		//创建DigestMethod
-//		TiXmlElement *DigestMethodElement = new TiXmlElement("DigestMethod");
-//		ReferenceElement->LinkEndChild(DigestMethodElement);
-//		//设置ReferenceElement元素的属性。
-//		DigestMethodElement->SetAttribute("Algorithm", "http://www.w3.org/2000/09/xmldsig#sha1");
-//		//创建DigestValue
-//		TiXmlElement *DigestValueElement = new TiXmlElement("DigestValue");
-//		ReferenceElement->LinkEndChild(DigestValueElement);
-//		TiXmlText *DigestValueContent = new TiXmlText(strDigest);
-//		DigestValueElement->LinkEndChild(DigestValueContent);
-//
-//		//签名值：
-//		TiXmlElement *SignatureValueElement = new TiXmlElement("SignatureValue");
-//		RootElement->LinkEndChild(SignatureValueElement);
-//		TiXmlText *SignatureValueContent = new TiXmlText(strSignature);
-//		SignatureValueElement->LinkEndChild(SignatureValueContent);
-//
-//		//KeyInfor:
-//		TiXmlElement *KeyInfoElement = new TiXmlElement("KeyInfo");
-//		RootElement->LinkEndChild(KeyInfoElement);
-//		//X509Data
-//		TiXmlElement *X509DataElement = new TiXmlElement("X509Data");
-//		KeyInfoElement->LinkEndChild(X509DataElement);
-//		//X509Certificate
-//		TiXmlElement *X509CertificateElement = new TiXmlElement("X509Certificate");
-//		X509DataElement->LinkEndChild(X509CertificateElement);
-//		TiXmlText *X509CertificateContent = new TiXmlText(strCert);
-//		X509CertificateElement->LinkEndChild(X509CertificateContent);
-//
-//		//Object:
-//		TiXmlElement *ObjectElement = new TiXmlElement("Object");
-//		RootElement->LinkEndChild(ObjectElement);
-//		ObjectElement->SetAttribute("Id", "data");
-//		TiXmlText *ObjectDataContent = new TiXmlText(strDataTobeSign);
-//		ObjectElement->LinkEndChild(ObjectDataContent);
-//
-//		//先保存到临时文件：
-//		char szPathBuffer[MAX_PATH] = {0};
-//		char szTempName[MAX_PATH] = {0};
-//		// Get the temp path.
-//		DWORD dwRet = GetTempPath(MAX_PATH,     // length of the buffer
-//			szPathBuffer); // buffer for path 
-//		if (dwRet == 0)
-//		{
-//			//Error
-//		}
-//
-//		// Create a temporary file. 
-//		dwRet = GetTempFileName(szPathBuffer, // directory for tmp files
-//			"NEW",        // temp file name prefix 
-//			0,            // create unique name 
-//			szTempName);  // buffer for name 
-//		myDocument->SaveFile(szTempName);
-//
-//		FILE *fp = fopen(szTempName, "rb");
-//
-//
-//		if(szBuf)
-//		{
-//			strcpy(szBuf, "<?xml version=\"1.0\" encoding=\"UTF-16\" standalone=\"no\" ?>");
-//			dwPos = strlen(szBuf);
-//			*nLen = fread(&szBuf[dwPos], 1, 1024*200, fp);
-//			*nLen = *nLen+dwPos;
-//		}
-//		fclose(fp);
-//	}
-//	catch (...)
-//	{
-//		return false;
-//	}
-//	return true;
-//}
-
-
-
-
-//void parseElement( TiXmlNode* pElem,
-//				  OUT char *strDataTobeSign, OUT char *strDigest, OUT char *strCert, OUT char *strSignature)
-//{
-//	char szBuf2[0x1000] = {0};
-//	char szBuf3[0x300] = {0};
-//
-//	if ( NULL == pElem )
-//	{
-//		return;
-//	}
-//
-//	TiXmlNode*    pElement = pElem->FirstChild();
-//
-//	for ( ; pElement; pElement = pElement->NextSibling() )
-//	{
-//		int nType = pElement->Type();
-//
-//		switch ( nType )
-//		{
-//		case TiXmlNode::ELEMENT:
-//			parseElement( pElement, strDataTobeSign, strDigest, strCert, strSignature);
-//			strcpy(szBuf3, pElement->Value());
-//			if(0 == strcmp(pElement->Value(), "DigestValue"))
-//				strcpy(strDigest, pElement->ToElement()->GetText());
-//			if(0 == strcmp(pElement->Value(), "SignatureValue"))
-//				strcpy(strSignature, pElement->ToElement()->GetText());
-//			if(0 == strcmp(pElement->Value(), "X509Certificate"))
-//				strcpy(strCert, pElement->ToElement()->GetText());
-//			if(0 == strcmp(pElement->Value(), "Object"))
-//			{
-//				strcpy(strDataTobeSign, pElement->ToElement()->GetText());
-//			}
-//			break;
-//		case TiXmlNode::TEXT:
-//			strcpy(szBuf2, pElement->Value());
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//}
-//
-//void ParseXmlDocument(char *szXMLFile, 
-//					  OUT char *strDataTobeSign, OUT char *strDigest, OUT char *strCert, OUT char *strSignature)   
-//{   
-//	TiXmlDocument doc(szXMLFile);   
-//	doc.LoadFile();   
-//	TiXmlElement *root = doc.RootElement();  
-//
-//	parseElement(root, strDataTobeSign, strDigest, strCert, strSignature);	   
-//}  
 
 #include <string>
 using namespace std;
@@ -698,59 +572,25 @@ void string_replace(std::string & strBig, const std::string & strsrc, const std:
 		pos += dstlen;
 	}
 }
-//bool GetXML_Data(IN char *szBuf_in, IN int nLen_in, 
-//				 OUT char *strDataTobeSign_OUT, OUT char *strDigest_OUT, 
-//				 OUT char *strCert_OUT, OUT char *strSignature_OUT)
-//{
-//	std::string str(szBuf_in);
-//	string_replace(str, "<xml>", "&lt;xml&gt;");
-//	string_replace(str, "</xml>", "&lt;/xml&gt;");
-//	
-//	char szBuf[1024 *200] = {0};
-//	int nLen = str.size();
-//	memcpy(szBuf, str.c_str(), str.size());
-//
-//	//先保存到临时文件：
-//	char szPathBuffer[MAX_PATH] = {0};
-//	char szTempName[MAX_PATH] = {0};
-//	// Get the temp path.
-//	DWORD dwRet = GetTempPath(MAX_PATH,     // length of the buffer
-//		szPathBuffer); // buffer for path 
-//	if (dwRet == 0)
-//	{
-//		//Error
-//	}
-//
-//	// Create a temporary file. 
-//	dwRet = GetTempFileName(szPathBuffer, // directory for tmp files
-//		"NEW",        // temp file name prefix 
-//		0,            // create unique name 
-//		szTempName);  // buffer for name 
-//
-//	FILE *fp = fopen(szTempName, "wb");
-//	if(szBuf)
-//		fwrite(szBuf, 1, nLen, fp);
-//	fclose(fp);
-//
-//	ParseXmlDocument(szTempName, strDataTobeSign_OUT, strDigest_OUT, strCert_OUT, strSignature_OUT);
-//
-//	return true;
-//}
+
 
 DWORD HS_GetCertType(HANDLE hCard, DWORD *pdwCertType)
 {
+	USBKeyAPIWrapper *pAPIWrapper = USBKeyAPIWrapper::GetInstance();
+	CHECK_POINTER(pAPIWrapper);
+
 	DWORD dwRet = 0, dwConNum = 0, i = 0, dwConNameLen = 0, dwConParam = 0;
 	DWORD dwFlag1 = 0, dwFlag2 = 0;
 	char szConName[1024] = {0};
 
-	dwRet = HSGetContainerNum(hCard, &dwConNum);
+	dwRet = pAPIWrapper->x_HSGetContainerNum(hCard, &dwConNum);
 
 	for (i=0; i<dwConNum; i++)
 	{
 		memset(szConName, 0x00, 1024);
 		dwConNameLen = 1024;
 		dwConParam = 0;
-		dwRet = HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
+		dwRet = pAPIWrapper->x_HSGetContainerName(hCard, i, szConName, &dwConNameLen, &dwConParam);
 		if (dwConParam == 0x00130000)
 		{
 			dwFlag1 = 1;
