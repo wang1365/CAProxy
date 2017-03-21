@@ -1,0 +1,67 @@
+// CAProxy.idl : CAProxy的 IDL 源
+//
+
+// 此文件将由 MIDL 工具处理以
+// 产生类型库(CAProxy.tlb)和封送处理代码。
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(F13C3022-B19D-49D4-9282-881078586642),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IKeyClient : IDispatch{
+	[id(1)] HRESULT help([out, retval] BSTR* v);
+	[id(2)] HRESULT SOF_GetVersion([out, retval] LONG* puiVersion);
+
+	[id(3)] HRESULT SOF_SetSignMethod([in] LONG SignMethod);
+	[id(4)] HRESULT SOF_GetSignMethod([out, retval] LONG* SignMethod);
+	[id(5)] HRESULT SOF_SetEncryptMethod([in] LONG EncryptMethod);
+	[id(6)] HRESULT SOF_GetUserList([out, retval] BSTR* userList);
+	[id(7)] HRESULT SOF_ExportUserCert([in] BSTR CertID, [out, retval] BSTR* rv);
+	[id(8)] HRESULT SOF_Login([in] BSTR CertID, [in] BSTR PassWd, [out, retval] int* rv);
+	[id(9)] HRESULT SOF_ChangePassWd([in] BSTR CertID, [in] BSTR OldPassWd, [in] BSTR NewPassWd, [out, retval] VARIANT_BOOL* rv);
+	[id(10)] HRESULT SOF_ExportExChangeUserCert([in] BSTR CertID, [out, retval] BSTR* rv);
+	[id(11)] HRESULT SOF_GetCertInfo([in] BSTR Cert, [in] LONG Type, [out, retval] BSTR* rv);
+	[id(12)] HRESULT SOF_GetCertInfoByOid([in] BSTR Cert, [in] BSTR Oid, [out, retval] BSTR* rv);
+	[id(13)] HRESULT SOF_GetUserInfo([in] BSTR Cert, [in] LONG Type, [out, retval] BSTR* rv);
+	[id(14)] HRESULT SOF_ValidateCert([in] BSTR Cert, [out, retval] BOOL* rv);
+	[id(15)] HRESULT SOF_SignData([in] BSTR Cert, [in] BSTR InData, [out, retval] BSTR* rv);
+	[id(16)] HRESULT SOF_VerifySignedData([in] BSTR Cert, [in] BSTR InData, [in] BSTR SignValue, [out, retval] VARIANT_BOOL* rv);
+	[id(17)] HRESULT SOF_SignFile([in] BSTR Cert, [in] BSTR InFile, [out, retval] BSTR* rv);
+	[id(18)] HRESULT SOF_VerifySignedFile([in] BSTR Cert, [in] BSTR InFile, [in] BSTR SignValue, [out, retval] VARIANT_BOOL* rv);
+	[id(19)] HRESULT SOF_EncryptData([in] BSTR SymmKey, [in] BSTR Indata, [out, retval] BSTR* rv);
+	[id(20)] HRESULT SOF_DecryptData([in] BSTR SymmKey, [in] BSTR Indata, [out, retval] BSTR* rv);
+	[id(21)] HRESULT SOF_EncryptFile([in] BSTR SymmKey, [in] BSTR InFile, [in] BSTR OutFile, [out, retval] VARIANT_BOOL* rv);
+	[id(22)] HRESULT SOF_DecryptFile([in] BSTR SymmKey, [in] BSTR InFile, [in] BSTR OutFile, [out, retval] VARIANT_BOOL* rv);
+	[id(23)] HRESULT SOF_PubKeyEncrypt([in] BSTR Cert, [in] BSTR InData, [out, retval] BSTR* rv);
+	[id(24)] HRESULT SOF_PriKeyDecrypt([in] BSTR CertID, [in] BSTR InData, [out, retval] BSTR* rv);
+	[id(25)] HRESULT SOF_SignDataByP7([in] BSTR CertID, [in] BSTR InData, [out, retval] BSTR* rv);
+	[id(26)] HRESULT SOF_VerifySignedDataByP7([in] BSTR P7Data, [out, retval] VARIANT_BOOL* rv);
+	[id(27)] HRESULT SOF_GetP7SignDataInfo([in] BSTR P7Data, [in] LONG type, [out, retval]  BSTR* rv);
+	[id(28)] HRESULT SOF_SignDataXML([in] BSTR CertID, [in] BSTR InData, [out, retval] BSTR* rv);
+	[id(29)] HRESULT SOF_VerifySignedDataXML([in] BSTR InData, [out, retval] VARIANT_BOOL* rv);
+	[id(30)] HRESULT SOF_GetXMLSignatureInfo([in] BSTR XMLSignedData, [in] LONG type, [out, retval] BSTR* rv);
+	[id(31)] HRESULT SOF_CheckSupport([out, retval] LONG* rv);
+	[id(32)] HRESULT SOF_GenRandom(LONG len, [out, retval] BSTR* rv);
+};
+[
+	uuid(10661CFA-50EB-4FC6-9EEA-F465A9DA0137),
+	version(1.0),
+]
+library CAProxyLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(5788ACA3-28AE-402F-B952-8DB113F8396F)		
+	]
+	coclass KeyClient
+	{
+		[default] interface IKeyClient;
+	};
+};
+

@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientActiveX", "ClientActiveX\CAProxy.vcxproj", "{F956B047-718E-4392-9886-92504C5347C8}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClienActiveXTest", "ClientActiveXTest\CAProxyTest.vcxproj", "{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		ClientAPI|x64 = ClientAPI|x64
+		ClientAPI|x86 = ClientAPI|x86
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F956B047-718E-4392-9886-92504C5347C8}.ClientAPI|x64.ActiveCfg = ClientAPI|x64
+		{F956B047-718E-4392-9886-92504C5347C8}.ClientAPI|x64.Build.0 = ClientAPI|x64
+		{F956B047-718E-4392-9886-92504C5347C8}.ClientAPI|x86.ActiveCfg = ClientAPI|Win32
+		{F956B047-718E-4392-9886-92504C5347C8}.ClientAPI|x86.Build.0 = ClientAPI|Win32
+		{F956B047-718E-4392-9886-92504C5347C8}.Debug|x64.ActiveCfg = Debug|x64
+		{F956B047-718E-4392-9886-92504C5347C8}.Debug|x64.Build.0 = Debug|x64
+		{F956B047-718E-4392-9886-92504C5347C8}.Debug|x86.ActiveCfg = Debug|Win32
+		{F956B047-718E-4392-9886-92504C5347C8}.Debug|x86.Build.0 = Debug|Win32
+		{F956B047-718E-4392-9886-92504C5347C8}.Release|x64.ActiveCfg = Release|x64
+		{F956B047-718E-4392-9886-92504C5347C8}.Release|x64.Build.0 = Release|x64
+		{F956B047-718E-4392-9886-92504C5347C8}.Release|x86.ActiveCfg = Release|Win32
+		{F956B047-718E-4392-9886-92504C5347C8}.Release|x86.Build.0 = Release|Win32
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.ClientAPI|x64.ActiveCfg = ClientAPI|x64
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.ClientAPI|x64.Build.0 = ClientAPI|x64
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.ClientAPI|x86.ActiveCfg = ClientAPI|Win32
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.ClientAPI|x86.Build.0 = ClientAPI|Win32
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Debug|x64.ActiveCfg = Debug|x64
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Debug|x64.Build.0 = Debug|x64
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Debug|x86.ActiveCfg = Debug|Win32
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Debug|x86.Build.0 = Debug|Win32
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Release|x64.ActiveCfg = Release|x64
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Release|x64.Build.0 = Release|x64
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Release|x86.ActiveCfg = Release|Win32
+		{65C16D8C-E204-4E2E-ADB0-9B44E3F270B6}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
